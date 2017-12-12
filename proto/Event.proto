@@ -1,0 +1,11 @@
+
+syntax = "proto2";
+
+package kk.proto;
+
+import "Value.proto";
+
+message Event {
+	required int32 type = 1;
+	optional Value value = 2;
+}

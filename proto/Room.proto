@@ -1,0 +1,14 @@
+
+
+syntax = "proto2";
+
+package kk.proto;
+
+import "User.proto";
+import "Command.proto";
+
+message Room {
+	required string id = 1;
+	optional User user = 2;
+	optional Command command = 3;
+}

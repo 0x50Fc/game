@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+package kk.proto;
+
+message User {
+	required string id = 1;
+}

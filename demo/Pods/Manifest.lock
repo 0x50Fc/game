@@ -1,0 +1,19 @@
+PODS:
+  - KKDuktape (1.0.1)
+  - KKGame (1.0.0)
+
+DEPENDENCIES:
+  - KKDuktape (~> 1.0.1)
+  - KKGame (from `..`)
+
+EXTERNAL SOURCES:
+  KKGame:
+    :path: ..
+
+SPEC CHECKSUMS:
+  KKDuktape: 96c10245d5cd314b10d174f4a5ebf48dcd1b44b1
+  KKGame: 3b941c5ccb1c76fe8caa6860f285991e7e71a6b8
+
+PODFILE CHECKSUM: 41261978e5fb2bdb5ea59ca3ef856871f0fc26b9
+
+COCOAPODS: 1.4.0.beta.2

@@ -1,0 +1,598 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		AC871F8D1FD7A1DE0078923F /* Framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = AC871F8E1FD7A1DE0078923F /* Build configuration list for PBXAggregateTarget "Framework" */;
+			buildPhases = (
+				AC871F931FD7A1E70078923F /* ShellScript */,
+			);
+			dependencies = (
+				AC871F921FD7A1E50078923F /* PBXTargetDependency */,
+			);
+			name = Framework;
+			productName = Framework;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		A722E0DD7B2FB074B49B7167 /* Pods_KKGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3898ABC1B2DCDD58FE009C1C /* Pods_KKGame.framework */; };
+		AC6FE6C41FDA8189006E4D71 /* kk-gl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC9BF9C91FDA72BC00F7FEE8 /* kk-gl.cpp */; };
+		AC6FE7081FDA8D0F006E4D71 /* KKGameView.h in Headers */ = {isa = PBXBuildFile; fileRef = AC6FE7061FDA8D0F006E4D71 /* KKGameView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AC6FE7091FDA8D0F006E4D71 /* KKGameView.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC6FE7071FDA8D0F006E4D71 /* KKGameView.mm */; };
+		AC6FE70C1FDA94C9006E4D71 /* KKGameApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = AC6FE70A1FDA94C9006E4D71 /* KKGameApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AC6FE70D1FDA94C9006E4D71 /* KKGameApplication.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC6FE70B1FDA94C9006E4D71 /* KKGameApplication.mm */; };
+		AC6FE70F1FDA95E2006E4D71 /* kk-game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC6FE70E1FDA95E2006E4D71 /* kk-game.cpp */; };
+		AC871F871FD7A1620078923F /* KKGame.h in Headers */ = {isa = PBXBuildFile; fileRef = AC871F851FD7A1620078923F /* KKGame.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AC871F981FD7A3090078923F /* kk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC871F971FD7A3090078923F /* kk.cpp */; };
+		AC9BF9C81FDA725900F7FEE8 /* kk-gl.h in Headers */ = {isa = PBXBuildFile; fileRef = AC9BF9C71FDA725900F7FEE8 /* kk-gl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACE05BE91FD8E2520043912D /* kk-property.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05BE81FD8E2520043912D /* kk-property.cpp */; };
+		ACE05BEA1FD8E29E0043912D /* kk.h in Headers */ = {isa = PBXBuildFile; fileRef = AC871F961FD7A2FD0078923F /* kk.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACE05BEB1FD8E29E0043912D /* kk-config.h in Headers */ = {isa = PBXBuildFile; fileRef = AC871F991FD7A39F0078923F /* kk-config.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACE05BEC1FD8E29E0043912D /* kk-object.h in Headers */ = {isa = PBXBuildFile; fileRef = AC871FA31FD7A4C40078923F /* kk-object.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACE05BED1FD8E29E0043912D /* kk-script.h in Headers */ = {isa = PBXBuildFile; fileRef = AC871FA41FD7A6350078923F /* kk-script.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACE05BEE1FD8E29E0043912D /* kk-property.h in Headers */ = {isa = PBXBuildFile; fileRef = ACE05BE51FD8DD580043912D /* kk-property.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACE05BEF1FD8EEBC0043912D /* kk-object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC871FA51FD7A8350078923F /* kk-object.cpp */; };
+		ACE05BF21FD8F9210043912D /* kk-element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05BF11FD8F9210043912D /* kk-element.cpp */; };
+		ACE05BF91FD909070043912D /* kk-element.h in Headers */ = {isa = PBXBuildFile; fileRef = ACE05BF01FD8F0220043912D /* kk-element.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACE05BFB1FD909710043912D /* kk-game.h in Headers */ = {isa = PBXBuildFile; fileRef = ACE05BFA1FD9096E0043912D /* kk-game.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACE05BFE1FD90B3A0043912D /* kk-document.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05BFD1FD90B3A0043912D /* kk-document.cpp */; };
+		ACE05C001FD9262F0043912D /* kk-event.h in Headers */ = {isa = PBXBuildFile; fileRef = ACE05BFF1FD9261E0043912D /* kk-event.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACE05C021FD927B00043912D /* kk-event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05C011FD927B00043912D /* kk-event.cpp */; };
+		ACF5C2BA1FDE35120018523C /* KKGameViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = ACF5C2B81FDE35120018523C /* KKGameViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACF5C2BF1FDE43BC0018523C /* KKGLTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C2BE1FDE43BC0018523C /* KKGLTexture.mm */; };
+		ACF5C2C11FDE5C5A0018523C /* kk-app.h in Headers */ = {isa = PBXBuildFile; fileRef = ACF5C2C01FDE5BDF0018523C /* kk-app.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACF5C2C31FDE5DD00018523C /* kk-app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C2C21FDE5DD00018523C /* kk-app.cpp */; };
+		ACF5C2C41FDF9E0C0018523C /* kk-document.h in Headers */ = {isa = PBXBuildFile; fileRef = ACE05BFC1FD909A90043912D /* kk-document.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACF5C30E1FDFA9B90018523C /* KKGameViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C2B91FDE35120018523C /* KKGameViewController.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AC871F911FD7A1E50078923F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC871F791FD7A1620078923F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC871F811FD7A1620078923F;
+			remoteInfo = KKGame;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		174ADB27401839A18F8A87E6 /* Pods-KKGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KKGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KKGame/Pods-KKGame.debug.xcconfig"; sourceTree = "<group>"; };
+		3898ABC1B2DCDD58FE009C1C /* Pods_KKGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KKGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BB40B15EFE3DB515EFB5580 /* Pods-KKGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KKGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-KKGame/Pods-KKGame.release.xcconfig"; sourceTree = "<group>"; };
+		AC6FE7061FDA8D0F006E4D71 /* KKGameView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKGameView.h; sourceTree = "<group>"; };
+		AC6FE7071FDA8D0F006E4D71 /* KKGameView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KKGameView.mm; sourceTree = "<group>"; };
+		AC6FE70A1FDA94C9006E4D71 /* KKGameApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKGameApplication.h; sourceTree = "<group>"; };
+		AC6FE70B1FDA94C9006E4D71 /* KKGameApplication.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KKGameApplication.mm; sourceTree = "<group>"; };
+		AC6FE70E1FDA95E2006E4D71 /* kk-game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-game.cpp"; sourceTree = "<group>"; };
+		AC871F821FD7A1620078923F /* KKGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KKGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC871F851FD7A1620078923F /* KKGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKGame.h; sourceTree = "<group>"; };
+		AC871F861FD7A1620078923F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC871F961FD7A2FD0078923F /* kk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kk.h; sourceTree = "<group>"; };
+		AC871F971FD7A3090078923F /* kk.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = kk.cpp; sourceTree = "<group>"; };
+		AC871F991FD7A39F0078923F /* kk-config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-config.h"; sourceTree = "<group>"; };
+		AC871FA31FD7A4C40078923F /* kk-object.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-object.h"; sourceTree = "<group>"; };
+		AC871FA41FD7A6350078923F /* kk-script.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-script.h"; sourceTree = "<group>"; };
+		AC871FA51FD7A8350078923F /* kk-object.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-object.cpp"; sourceTree = "<group>"; };
+		AC9BF9C71FDA725900F7FEE8 /* kk-gl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-gl.h"; sourceTree = "<group>"; };
+		AC9BF9C91FDA72BC00F7FEE8 /* kk-gl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-gl.cpp"; sourceTree = "<group>"; };
+		ACE05BE51FD8DD580043912D /* kk-property.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-property.h"; sourceTree = "<group>"; };
+		ACE05BE81FD8E2520043912D /* kk-property.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-property.cpp"; sourceTree = "<group>"; };
+		ACE05BF01FD8F0220043912D /* kk-element.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-element.h"; sourceTree = "<group>"; };
+		ACE05BF11FD8F9210043912D /* kk-element.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-element.cpp"; sourceTree = "<group>"; };
+		ACE05BFA1FD9096E0043912D /* kk-game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-game.h"; sourceTree = "<group>"; };
+		ACE05BFC1FD909A90043912D /* kk-document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-document.h"; sourceTree = "<group>"; };
+		ACE05BFD1FD90B3A0043912D /* kk-document.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-document.cpp"; sourceTree = "<group>"; };
+		ACE05BFF1FD9261E0043912D /* kk-event.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-event.h"; sourceTree = "<group>"; };
+		ACE05C011FD927B00043912D /* kk-event.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-event.cpp"; sourceTree = "<group>"; };
+		ACF5C2B81FDE35120018523C /* KKGameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKGameViewController.h; sourceTree = "<group>"; };
+		ACF5C2B91FDE35120018523C /* KKGameViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KKGameViewController.mm; sourceTree = "<group>"; };
+		ACF5C2BE1FDE43BC0018523C /* KKGLTexture.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KKGLTexture.mm; sourceTree = "<group>"; };
+		ACF5C2C01FDE5BDF0018523C /* kk-app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-app.h"; sourceTree = "<group>"; };
+		ACF5C2C21FDE5DD00018523C /* kk-app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-app.cpp"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AC871F7E1FD7A1620078923F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A722E0DD7B2FB074B49B7167 /* Pods_KKGame.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		394615354DA9B9A52844B565 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				174ADB27401839A18F8A87E6 /* Pods-KKGame.debug.xcconfig */,
+				7BB40B15EFE3DB515EFB5580 /* Pods-KKGame.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7F7C6517F0D172EDED7ABCB7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3898ABC1B2DCDD58FE009C1C /* Pods_KKGame.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AC871F781FD7A1620078923F = {
+			isa = PBXGroup;
+			children = (
+				AC871F841FD7A1620078923F /* KKGame */,
+				AC871F831FD7A1620078923F /* Products */,
+				394615354DA9B9A52844B565 /* Pods */,
+				7F7C6517F0D172EDED7ABCB7 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AC871F831FD7A1620078923F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC871F821FD7A1620078923F /* KKGame.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC871F841FD7A1620078923F /* KKGame */ = {
+			isa = PBXGroup;
+			children = (
+				AC871F951FD7A2EA0078923F /* include */,
+				AC871F941FD7A2E30078923F /* src */,
+				AC871F851FD7A1620078923F /* KKGame.h */,
+				AC6FE7061FDA8D0F006E4D71 /* KKGameView.h */,
+				AC6FE7071FDA8D0F006E4D71 /* KKGameView.mm */,
+				ACF5C2B81FDE35120018523C /* KKGameViewController.h */,
+				ACF5C2B91FDE35120018523C /* KKGameViewController.mm */,
+				AC6FE70A1FDA94C9006E4D71 /* KKGameApplication.h */,
+				AC6FE70B1FDA94C9006E4D71 /* KKGameApplication.mm */,
+				ACF5C2BE1FDE43BC0018523C /* KKGLTexture.mm */,
+				AC871F861FD7A1620078923F /* Info.plist */,
+			);
+			path = KKGame;
+			sourceTree = "<group>";
+		};
+		AC871F941FD7A2E30078923F /* src */ = {
+			isa = PBXGroup;
+			children = (
+				AC871F971FD7A3090078923F /* kk.cpp */,
+				AC871FA51FD7A8350078923F /* kk-object.cpp */,
+				ACE05C011FD927B00043912D /* kk-event.cpp */,
+				ACE05BE81FD8E2520043912D /* kk-property.cpp */,
+				ACE05BF11FD8F9210043912D /* kk-element.cpp */,
+				ACE05BFD1FD90B3A0043912D /* kk-document.cpp */,
+				AC9BF9C91FDA72BC00F7FEE8 /* kk-gl.cpp */,
+				AC6FE70E1FDA95E2006E4D71 /* kk-game.cpp */,
+				ACF5C2C21FDE5DD00018523C /* kk-app.cpp */,
+			);
+			name = src;
+			path = ../../src;
+			sourceTree = "<group>";
+		};
+		AC871F951FD7A2EA0078923F /* include */ = {
+			isa = PBXGroup;
+			children = (
+				AC871F961FD7A2FD0078923F /* kk.h */,
+				AC871F991FD7A39F0078923F /* kk-config.h */,
+				AC871FA31FD7A4C40078923F /* kk-object.h */,
+				ACE05BFF1FD9261E0043912D /* kk-event.h */,
+				AC871FA41FD7A6350078923F /* kk-script.h */,
+				ACE05BE51FD8DD580043912D /* kk-property.h */,
+				ACE05BF01FD8F0220043912D /* kk-element.h */,
+				ACE05BFC1FD909A90043912D /* kk-document.h */,
+				ACE05BFA1FD9096E0043912D /* kk-game.h */,
+				AC9BF9C71FDA725900F7FEE8 /* kk-gl.h */,
+				ACF5C2C01FDE5BDF0018523C /* kk-app.h */,
+			);
+			name = include;
+			path = ../../include;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		AC871F7F1FD7A1620078923F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACE05BEA1FD8E29E0043912D /* kk.h in Headers */,
+				ACE05BEB1FD8E29E0043912D /* kk-config.h in Headers */,
+				ACF5C2C11FDE5C5A0018523C /* kk-app.h in Headers */,
+				AC871F871FD7A1620078923F /* KKGame.h in Headers */,
+				AC6FE7081FDA8D0F006E4D71 /* KKGameView.h in Headers */,
+				ACE05BEE1FD8E29E0043912D /* kk-property.h in Headers */,
+				ACE05BFB1FD909710043912D /* kk-game.h in Headers */,
+				ACF5C2C41FDF9E0C0018523C /* kk-document.h in Headers */,
+				ACE05BEC1FD8E29E0043912D /* kk-object.h in Headers */,
+				ACE05BED1FD8E29E0043912D /* kk-script.h in Headers */,
+				ACE05C001FD9262F0043912D /* kk-event.h in Headers */,
+				ACF5C2BA1FDE35120018523C /* KKGameViewController.h in Headers */,
+				AC6FE70C1FDA94C9006E4D71 /* KKGameApplication.h in Headers */,
+				AC9BF9C81FDA725900F7FEE8 /* kk-gl.h in Headers */,
+				ACE05BF91FD909070043912D /* kk-element.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		AC871F811FD7A1620078923F /* KKGame */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC871F8A1FD7A1620078923F /* Build configuration list for PBXNativeTarget "KKGame" */;
+			buildPhases = (
+				491B8C74C7847438F41B7ED8 /* [CP] Check Pods Manifest.lock */,
+				AC871F7D1FD7A1620078923F /* Sources */,
+				AC871F7E1FD7A1620078923F /* Frameworks */,
+				AC871F7F1FD7A1620078923F /* Headers */,
+				AC871F801FD7A1620078923F /* Resources */,
+				FDDFE397852A381FDA39685D /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KKGame;
+			productName = KKGame;
+			productReference = AC871F821FD7A1620078923F /* KKGame.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AC871F791FD7A1620078923F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = kkmofang.cn;
+				TargetAttributes = {
+					AC871F811FD7A1620078923F = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+					AC871F8D1FD7A1DE0078923F = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = AC871F7C1FD7A1620078923F /* Build configuration list for PBXProject "KKGame" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AC871F781FD7A1620078923F;
+			productRefGroup = AC871F831FD7A1620078923F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AC871F811FD7A1620078923F /* KKGame */,
+				AC871F8D1FD7A1DE0078923F /* Framework */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AC871F801FD7A1620078923F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		491B8C74C7847438F41B7ED8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KKGame-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC871F931FD7A1E70078923F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Sets the target folders and the final framework product.\n\n# 如果工程名称和Framework的Target名称不一样的话，要自定义FMKNAME\n\n# 例如: FMK_NAME = \"MyFramework\"\n\nFMK_NAME=${PROJECT_NAME}\n\n# Install dir will be the final output to the framework.\n\n# The following line create it in the root folder of the current project.\n\nINSTALL_DIR=${SRCROOT}/../${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\n\nWRK_DIR=build\n\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\n\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# -configuration ${CONFIGURATION}\n\n# Clean and Building both architectures.\n\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos clean build\n\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator clean build\n\n# Cleaning the oldest.\n\nif [ -d \"${INSTALL_DIR}\" ]\n\nthen\n\nrm -rf \"${INSTALL_DIR}\"\n\nfi\n\nmkdir -p \"${INSTALL_DIR}\"\n\ncp -R \"${DEVICE_DIR}/\" \"${INSTALL_DIR}/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\n\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\nopen \"${INSTALL_DIR}\"\n\n#作者：天天码砖哥\n#链接：http://www.jianshu.com/p/90b83e35e615\n#來源：简书\n#著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。\n";
+		};
+		FDDFE397852A381FDA39685D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KKGame/Pods-KKGame-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AC871F7D1FD7A1620078923F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC6FE6C41FDA8189006E4D71 /* kk-gl.cpp in Sources */,
+				ACE05C021FD927B00043912D /* kk-event.cpp in Sources */,
+				AC6FE7091FDA8D0F006E4D71 /* KKGameView.mm in Sources */,
+				ACE05BFE1FD90B3A0043912D /* kk-document.cpp in Sources */,
+				ACE05BF21FD8F9210043912D /* kk-element.cpp in Sources */,
+				ACE05BEF1FD8EEBC0043912D /* kk-object.cpp in Sources */,
+				AC6FE70D1FDA94C9006E4D71 /* KKGameApplication.mm in Sources */,
+				ACF5C2C31FDE5DD00018523C /* kk-app.cpp in Sources */,
+				ACF5C30E1FDFA9B90018523C /* KKGameViewController.mm in Sources */,
+				ACF5C2BF1FDE43BC0018523C /* KKGLTexture.mm in Sources */,
+				ACE05BE91FD8E2520043912D /* kk-property.cpp in Sources */,
+				AC871F981FD7A3090078923F /* kk.cpp in Sources */,
+				AC6FE70F1FDA95E2006E4D71 /* kk-game.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AC871F921FD7A1E50078923F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AC871F811FD7A1620078923F /* KKGame */;
+			targetProxy = AC871F911FD7A1E50078923F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AC871F881FD7A1620078923F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		AC871F891FD7A1620078923F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		AC871F8B1FD7A1620078923F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 174ADB27401839A18F8A87E6 /* Pods-KKGame.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = BQQ2Y9B27K;
+				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/KKDuktape\"",
+					../lib,
+				);
+				INFOPLIST_FILE = KKGame/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = staticlib;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.kkmofang.KKGame;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AC871F8C1FD7A1620078923F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BB40B15EFE3DB515EFB5580 /* Pods-KKGame.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = BQQ2Y9B27K;
+				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/KKDuktape\"",
+					../lib,
+				);
+				INFOPLIST_FILE = KKGame/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.kkmofang.KKGame;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AC871F8F1FD7A1DE0078923F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BQQ2Y9B27K;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AC871F901FD7A1DE0078923F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BQQ2Y9B27K;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AC871F7C1FD7A1620078923F /* Build configuration list for PBXProject "KKGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC871F881FD7A1620078923F /* Debug */,
+				AC871F891FD7A1620078923F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC871F8A1FD7A1620078923F /* Build configuration list for PBXNativeTarget "KKGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC871F8B1FD7A1620078923F /* Debug */,
+				AC871F8C1FD7A1620078923F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC871F8E1FD7A1DE0078923F /* Build configuration list for PBXAggregateTarget "Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC871F8F1FD7A1DE0078923F /* Debug */,
+				AC871F901FD7A1DE0078923F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AC871F791FD7A1620078923F /* Project object */;
+}

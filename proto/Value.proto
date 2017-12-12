@@ -1,0 +1,62 @@
+syntax = "proto2";
+
+package kk.proto;
+
+message Value {
+
+	optional int32 int32_value = 1;
+	optional int64 int64_value = 2;
+	optional double double_value = 3;
+	optional float float_value = 4;
+	optional bool bool_value = 5;
+	optional string string_value = 6;
+
+	message Vec4 {
+		required float x = 1;
+		required float y = 2;
+		required float z = 3;
+		required float w = 4;
+	}
+
+	optional Vec4 vec4_value = 7;
+
+	message Mat4x4 {
+		required Vec4 m0 = 1;
+		required Vec4 m1 = 2;
+		required Vec4 m2 = 3;
+		required Vec4 m4 = 4;
+	}
+
+	optional Mat4x4 mat4x4_value = 8;
+
+	message Vec3 {
+		required float x = 1;
+		required float y = 2;
+		required float z = 3;
+	}
+
+	optional Vec3 vec3_value = 9;
+
+	message Mat3x3 {
+		required Vec3 m0 = 1;
+		required Vec3 m1 = 2;
+		required Vec3 m2 = 3;
+	}
+
+	optional Mat3x3 mat3x3_value = 10;
+
+	message Vec2 {
+		required float x = 1;
+		required float y = 2;
+	}
+
+	optional Vec2 vec2_value = 11;
+
+	message Mat2x2 {
+		required Vec2 m0 = 1;
+		required Vec2 m1 = 2;
+	}
+
+	optional Mat2x2 mat2x2_value = 12;
+
+}

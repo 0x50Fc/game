@@ -1,0 +1,63 @@
+
+syntax = "proto2";
+
+package kk.proto;
+
+import "Value.proto";
+import "Event.proto";
+
+message Command {
+	
+	enum Type {
+		ELEMENT_NEW = 0;
+		ELEMENT_PROPERTY = 1;
+		ELEMENT_APPEND = 2;
+		ELEMENT_BEFORE = 3;
+		ELEMENT_AFTER = 4;
+		ELEMENT_REMOVE = 5;
+		ELEMENT_EVENT = 6;
+	}
+
+	required Type type = 1 [default = ELEMENT_NEW];
+	required int64 timestamp = 2;
+
+	message ElementNew {
+		required int32 id = 1;
+		required string name = 2;
+	}
+
+	optional ElementNew element_new = 3;
+	
+	message ElementProperty {
+		required int32 id = 1;
+		required int32 key = 2;
+		required Value value = 3;
+	}
+
+	optional ElementProperty element_property = 4;
+	
+	message ElementAdd {
+		required int32 id = 1;
+		required int32 elementId = 2;
+	}
+
+	optional ElementAdd element_append = 5;
+	optional ElementAdd element_before = 6;
+	optional ElementAdd element_after = 7;
+
+	message ElementRemove {
+		required int32 id = 1;
+	}
+
+	optional ElementAdd element_remove = 8;
+
+	message ElementAction {
+		required int32 id = 1;
+		required string name = 2;
+		optional Event event = 3;
+	}
+
+	optional ElementAction element_action = 9;
+
+}
+
