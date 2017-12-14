@@ -60,7 +60,6 @@ namespace kk {
                     
                     CFRelease(imageSource);
                     
-                    CFRelease(vdata);
                     
                 }
             }

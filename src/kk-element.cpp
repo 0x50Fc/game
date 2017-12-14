@@ -12,6 +12,10 @@
 
 namespace kk {
     
+
+    Element::~Element() {
+        
+    }
     
     Element * Element::parent() {
         return dynamic_cast<Element *>(_parent.get());
@@ -35,42 +39,36 @@ namespace kk {
     
     void Element::remove() {
         
-        Element * element = NULL;
+        ScriptContext ctx = context();
+        ElementActionEvent * e = NULL;
         
         Element * p = parent();
         Element * prev = prevSibling();
         Element * next = nextSibling();
         
         if(prev) {
-            prev->_nextSibling.set( next);
+            e = ScriptNewObject<ElementActionEvent>(ctx, 0);
+            e->setElement(this);
+            prev->setNextSibling(next);
             if(next) {
-                next->_prevSibling.set(prev);
+                next->setPrevSibling(prev);
             } else {
-                p->_lastChild.set( prev);
+                p->setLastChild( prev);
             }
-            element = this;
         } else if(p) {
-            p->_firstChild.set( next);
+            e = ScriptNewObject<ElementActionEvent>(ctx, 0);
+            e->setElement(this);
+            p->setFirstChild( next);
             if(next) {
-                next->_prevSibling.set(Object::Null);
+                next->setPrevSibling(NULL);
             } else {
-                p->_lastChild.set(Object::Null);
+                p->setLastChild(NULL);
             }
-            element = this;
         }
         
-        if(element) {
+        if(e) {
             
-            _parent.set( Object::Null);
-            _nextSibling.set( Object::Null);
-            _prevSibling.set( Object::Null);
-            
-            ScriptContext ctx = context();
-            
-            ElementActionEvent * e = ScriptNewObject<ElementActionEvent>(ctx, 0);
-            
-            e->element.set(element);
-            e->actionType.set((Int) ElementActionTypeRemove);
+            e->setActionType((Int) ElementActionTypeRemove);
             
             emit("element", e);
             
@@ -86,21 +84,23 @@ namespace kk {
         Element * last = lastChild();
         
         if(last) {
-            last->_nextSibling.set( e);
-            e->_prevSibling.set( last);
-            _lastChild.set( e);
+            last->setNextSibling(e);
+            e->setPrevSibling( last);
+            setLastChild(e);
+            e->setParent(this);
         } else {
-            _firstChild.set( e);
-            _lastChild.set( e);
+            setFirstChild(e);
+            setLastChild(e);
+            e->setParent(this);
         }
         
         ScriptContext ctx = context();
         
         ElementActionEvent * event = ScriptNewObject<ElementActionEvent>(ctx, 0);
         
-        event->element.set( this);
-        event->asElement.set(e);
-        event->actionType.set( ElementActionTypeAdd);
+        event->setElement( this);
+        event->setAsElement(e);
+        event->setActionType( ElementActionTypeAdd);
         
         emit("element", event);
         
@@ -120,13 +120,15 @@ namespace kk {
         Element * p = parent();
         
         if(prev) {
-            prev->_nextSibling.set( e);
+            prev->_nextSibling.set(this, e);
             e->_prevSibling.set( prev);
-            e->_nextSibling.set(this);
+            e->_nextSibling.set(this,this);
+            e->setParent(p);
         } else if(p) {
-            e->_nextSibling.set( this);
-            this->_prevSibling.set( e);
-            p->_firstChild.set( e);
+            e->setNextSibling(this);
+            this->setPrevSibling( e);
+            p->setFirstChild( e);
+            e->setParent(p);
         }
         
         if(p) {
@@ -135,9 +137,9 @@ namespace kk {
             
             ElementActionEvent * event = ScriptNewObject<ElementActionEvent>(ctx, 0);
             
-            event->element.set(p);
-            event->asElement.set(e);
-            event->actionType.set(ElementActionTypeAdd);
+            event->setElement(p);
+            event->setAsElement(e);
+            event->setActionType(ElementActionTypeAdd);
             
             p->emit("element", event);
             
@@ -157,14 +159,16 @@ namespace kk {
         Element * p = parent();
         
         if(next) {
-            e->_nextSibling.set( next);
+            e->setNextSibling( next);
             next->_prevSibling.set( e);
-            _nextSibling.set( e);
-            e->_prevSibling.set( this);
+            setNextSibling( e);
+            e->setPrevSibling( this);
+            e->setParent(p);
         } else if(p) {
-            _nextSibling.set( e);
-            e->_prevSibling.set( this);
-            p->_lastChild.set( e);
+            setNextSibling( e);
+            e->setPrevSibling( this);
+            p->setLastChild( e);
+            e->setParent(p);
         }
         
         if(p) {
@@ -173,9 +177,9 @@ namespace kk {
             
             ElementActionEvent * event = ScriptNewObject<ElementActionEvent>(ctx, 0);
             
-            event->element.set(p);
-            event->asElement.set(e);
-            event->actionType.set(ElementActionTypeAdd);
+            event->setElement(p);
+            event->setAsElement(e);
+            event->setActionType(ElementActionTypeAdd);
             
             p->emit("element", event);
             
@@ -189,25 +193,37 @@ namespace kk {
     }
     
     Int64 Element::id() {
-        return _id.get();
+        return _id;
     }
     
     void Element::setId(Int64 v) {
-        if(_id.get() == 0) {
-            _id.set(v);
+        if(_id == 0) {
+            _id = v;
         }
     }
     
-    Element::Element(ScriptContext context,ScriptPtr ptr)
-        :kk::EventEmitter(context,ptr)
-            ,_parent(this,&P::parent)
-            ,_firstChild(this,&P::firstChild)
-            ,_lastChild(this,&P::lastChild)
-            ,_nextSibling(this,&P::nextSibling)
-            ,_prevSibling(this,&P::prevSibling)
-            ,_id(this,&P::id)
-            ,_document(this,&P::document){
-        
+    void Element::setParent(Element * v){
+        _parent.set(v);
+    }
+    
+    void Element::setFirstChild(Element * v) {
+        _firstChild.set(this, v);
+    }
+    
+    void Element::setLastChild(Element * v) {
+        _lastChild.set(this,v);
+    }
+    
+    void Element::setNextSibling(Element * v) {
+        _nextSibling.set(this, v);
+    }
+    
+    void Element::setPrevSibling(Element * v) {
+        _prevSibling.set(v);
+    }
+    
+    void Element::setDocument(Element * v) {
+        _document.set(v);
     }
    
     static ScriptResult ElementAppendFunc(ScriptContext ctx) {
@@ -391,10 +407,75 @@ namespace kk {
         int nargs = duk_get_top(ctx);
         
         if(nargs >0 && duk_is_object(ctx, -nargs)) {
-            _document.set( ScriptGetObject(ctx, -nargs));
+            _document.set(ScriptGetObject(ctx, -nargs));
         }
+    }
+    
+    Document * Element::document() {
+        return dynamic_cast<Document *>(_document.get());
+    }
+    
+    void Element::change(Property * property) {
+        EventEmitter::change(property);
         
-        duk_push_this(ctx);
+        ScriptContext ctx = context();
+        
+        ElementActionEvent * e = ScriptNewObject<ElementActionEvent>(ctx, 0);
+        
+        e->setElement(this);
+        e->setActionType(ElementActionTypeProperty);
+        e->setProperty( property);
+        
+        emit("element", e);
+        
+        duk_pop(ctx);
+    }
+    
+    Event * Element::defaultEvent(CString name) {
+        ScriptContext ctx = context();
+        ElementEvent * e = ScriptNewObject<ElementEvent>(ctx, 0);
+        e->setElement(this);
+        return e;
+    }
+    
+    void Element::emit(CString name,Event * event) {
+        EventEmitter::emit(name, event);
+        
+        ElementEvent * e = dynamic_cast<ElementEvent *>(event);
+        
+        if(e != NULL && !e->isCancelBubble()) {
+            Element * p = parent();
+            if(p) {
+                p->emit(name, event);
+            } else {
+                Document * doc = document();
+                if(doc) {
+                    doc->emit(name, event);
+                }
+            }
+        }
+    }
+   
+    Int64Property Element::Property_id(&kk::named::id,(Int64Property::Getter) &Element::id, NULL);
+    ObjectProperty Element::Property_parent(&kk::named::parent,(ObjectProperty::Getter)&Element::parent,NULL);
+    ObjectProperty Element::Property_firstChild(&kk::named::firstChild,(ObjectProperty::Getter)&Element::firstChild,NULL);
+    ObjectProperty Element::Property_lastChild(&kk::named::lastChild,(ObjectProperty::Getter)&Element::lastChild,NULL);
+    ObjectProperty Element::Property_nextSibling(&kk::named::nextSibling,(ObjectProperty::Getter)&Element::nextSibling,NULL);
+    ObjectProperty Element::Property_prevSibling(&kk::named::prevSibling,(ObjectProperty::Getter)&Element::prevSibling,NULL);
+    ObjectProperty Element::Property_document(&kk::named::document,(ObjectProperty::Getter)&Element::document,NULL);
+    
+    Property *Element::Propertys[] = {
+        &Element::Property_id,
+        &Element::Property_parent,
+        &Element::Property_firstChild,
+        &Element::Property_lastChild,
+        &Element::Property_nextSibling,
+        &Element::Property_prevSibling,
+        &Element::Property_document,
+        NULL
+    };
+    
+    static ScriptResult ElementPrototypeFunc(ScriptContext ctx) {
         
         duk_push_string(ctx, "append");
         duk_push_c_function(ctx, ElementAppendFunc, 1);
@@ -424,68 +505,77 @@ namespace kk {
         duk_push_c_function(ctx, ElementRemoveFunc, 0);
         duk_put_prop(ctx, -3);
         
-        duk_pop(ctx);
+        return 0;
     }
     
-    Document * Element::document() {
-        return dynamic_cast<Document *>(_document.get());
+    IMP_CLASS(Element, EventEmitter, Element::Propertys, ElementPrototypeFunc);
+    
+    ObjectProperty ElementEvent::Property_element(&kk::named::element,(ObjectProperty::Getter)&ElementEvent::element,(ObjectProperty::Setter)&ElementEvent::setElement);
+    BooleanProperty ElementEvent::Property_cancelBubble(&kk::named::cancelBubble,(BooleanProperty::Getter)&ElementEvent::isCancelBubble,(BooleanProperty::Setter)&ElementEvent::setCancelBubble);
+    
+    Property *ElementEvent::Propertys[] ={
+        &ElementEvent::Property_element,
+        &ElementEvent::Property_cancelBubble,
+        NULL
+    };
+    
+    Element * ElementEvent::element(){
+        return _element.get();
     }
     
-    void Element::onChangeProperty(VProperty * property) {
-        Object::onChangeProperty(property);
-        
-        ScriptContext ctx = context();
-        
-        ElementActionEvent * e = ScriptNewObject<ElementActionEvent>(ctx, 0);
-        
-        e->element.set(this);
-        e->actionType.set(ElementActionTypeProperty);
-        e->property = property;
-        
-        emit("element", e);
-        
-        duk_pop(ctx);
+    void ElementEvent::setElement(Element * element) {
+        _element.set(this, element);
     }
     
-    Event * Element::defaultEvent(CString name) {
-        ScriptContext ctx = context();
-        ElementEvent * e = ScriptNewObject<ElementEvent>(ctx, 0);
-        e->element.set(this);
-        return e;
+    Boolean ElementEvent::isCancelBubble() {
+        return _cancelBubble;
     }
     
-    void Element::emit(CString name,Event * event) {
-        EventEmitter::emit(name, event);
-        
-        ElementEvent * e = dynamic_cast<ElementEvent *>(event);
-        
-        if(e != NULL && !e->cancelBubble.get()) {
-            Element * p = parent();
-            if(p) {
-                p->emit(name, event);
-            } else {
-                Document * doc = document();
-                if(doc) {
-                    doc->emit(name, event);
-                }
-            }
-        }
+    void ElementEvent::setCancelBubble(Boolean value) {
+        _cancelBubble = value;
     }
     
-    ElementEvent::ElementEvent(ScriptContext context,ScriptPtr ptr)
-        :kk::Event(context,ptr)
-        ,element(this,&P::element)
-        ,cancelBubble(this,&P::cancelBubble){
-        
+    IMP_CLASS(ElementEvent, Event, ElementEvent::Propertys, NULL)
+    
+    Element * ElementActionEvent::asElement() {
+        return _asElement.get();
     }
     
-    ElementActionEvent::ElementActionEvent(ScriptContext context,ScriptPtr ptr)
-        :kk::ElementEvent(context,ptr)
-        ,asElement(this,&P::asElement)
-        ,actionType(this,&P::actionType)
-        ,name(this,&P::name)
-        ,property(NULL){
-        
+    void ElementActionEvent::setAsElement(Element * element) {
+        _asElement.set(this, element);
     }
+    
+    Int ElementActionEvent::actionType() {
+        return _actionType;
+    }
+    
+    void ElementActionEvent::setActionType(Int value) {
+        _actionType = value;
+    }
+    
+    Property * ElementActionEvent::property() {
+        return _property;
+    }
+    
+    void ElementActionEvent::setProperty(Property * value) {
+        _property = value;
+    }
+    
+    CString ElementActionEvent::name() {
+        return _property ? _property->name()->name() : NULL;
+    }
+    
+    ObjectProperty ElementActionEvent::Property_asElement(&kk::named::asElement,(ObjectProperty::Getter)&ElementActionEvent::asElement,(ObjectProperty::Setter)&ElementActionEvent::setAsElement);
+    IntProperty ElementActionEvent::Property_actionType(&kk::named::actionType,(IntProperty::Getter)&ElementActionEvent::actionType,(IntProperty::Setter)&ElementActionEvent::setActionType);
+    StringProperty ElementActionEvent::Property_name(&kk::named::name,(StringProperty::Getter)&ElementActionEvent::name,NULL);
+    
+    Property *ElementActionEvent::Propertys[] = {
+        &ElementActionEvent::Property_asElement,
+        &ElementActionEvent::Property_actionType,
+        &ElementActionEvent::Property_name,
+        NULL
+    };
+    
+    IMP_CLASS(ElementActionEvent, ElementEvent, ElementActionEvent::Propertys, NULL)
     
 }

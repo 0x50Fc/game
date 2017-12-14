@@ -9,10 +9,17 @@
 #import "KKGameViewController.h"
 #import "KKGameApplication.h"
 
+#include "GLSLTexture.h"
+#include "kk-game.h"
+
 #include <strstream>
 
 @interface KKGameViewController () {
     kk::gl::GLDrawable * _drawable;
+    kk::gl::GLContext * _glContext;
+    
+    kk::game::GMElement * _gameElement;
+    kk::game::GMContext * _gameContext;
 }
 
 @property(nonatomic,strong) CADisplayLink * displayLink;
@@ -30,21 +37,69 @@
     if(_document != nil) {
         kk::ScriptDeleteGlobalObject(_document->context(), _document);
         _document = nil;
+        _drawable = nil;
+        _gameElement = nil;
     }
+
+    if(_glContext != nil){
+        kk::ScriptDeleteGlobalObject(_glContext->context(), _glContext);
+        _glContext = nil;
+    }
+    
+    if(_gameContext != nil){
+        kk::ScriptDeleteGlobalObject(_gameContext->context(), _gameContext);
+        _gameContext = nil;
+    }
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    if(_gameView == nil) {
+        _gameView = [[KKGameView alloc] initWithFrame:self.view.bounds];
+        [_gameView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+        [self.view addSubview:_gameView];
+    }
+    
+    [EAGLContext setCurrentContext:[_gameView GLContext]];
+
     if(_document != nil) {
         kk::ScriptDeleteGlobalObject(_document->context(), _document);
         _document = nil;
         _drawable = nil;
+        _gameElement = nil;
+    }
+    
+    if(_glContext != nil){
+        kk::ScriptDeleteGlobalObject(_glContext->context(), _glContext);
+        _glContext = nil;
+    }
+    
+    if(_gameContext != nil){
+        kk::ScriptDeleteGlobalObject(_gameContext->context(), _gameContext);
+        _gameContext = nil;
     }
     
     kk::Application * app = self.app.app;
     
     kk::ScriptContext ctx = self.app.jsContext;
+    
+    _glContext = kk::ScriptNewObject<kk::gl::GLContext>(ctx, 0);
+    
+    _glContext->set("GLSLTexture", kk::glsl::GLSLTextureCreate());
+    
+    kk::ScriptNewGlobalObject(ctx, _glContext);
+    
+    duk_pop(ctx);
+    
+    _gameContext = kk::ScriptNewObject<kk::game::GMContext>(ctx, 0);
+    
+    _gameContext->setSpeed(1000 / 60);
+    
+    kk::ScriptNewGlobalObject(ctx, _gameContext);
+    
+    duk_pop(ctx);
     
     _document = kk::ScriptNewObject<kk::Document>(ctx, 0);
     
@@ -91,10 +146,12 @@
         
         while(p) {
             
-            _drawable = dynamic_cast<kk::gl::GLDrawable *>(p);
+            if(_drawable == NULL) {
+                _drawable = dynamic_cast<kk::gl::GLDrawable *>(p);
+            }
             
-            if(_drawable) {
-                break;
+            if(_gameElement == NULL) {
+                _gameElement = dynamic_cast<kk::game::GMElement *>(p);
             }
             
             p = p->nextSibling();
@@ -102,13 +159,11 @@
         
     }
     
-    if(_gameView == nil) {
-        _gameView = [[KKGameView alloc] initWithFrame:self.view.bounds];
-        [_gameView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-        [self.view addSubview:_gameView];
-    }
-    
     self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(onDrawDocument)];
+    
+    _glContext->setSpeed(1000 / 60);
+    
+    [_displayLink setFrameInterval:60];
     
     [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     
@@ -116,15 +171,18 @@
 
 -(void) onDrawDocument {
     
-    if(_drawable) {
+    if(_gameContext){
         
-        kk::ScriptContext ctx = _document->context();
-        kk::gl::GLContext * glContext = kk::ScriptNewObject<kk::gl::GLContext>(ctx, 0);
+        _gameContext->tick();
         
-        [_gameView display:_drawable context:glContext];
+        if(_gameElement) {
+            _gameElement->tick(_gameContext);
+        }
         
-        duk_pop(ctx);
-        
+    }
+
+    if(_drawable && _glContext) {
+        [_gameView display:_drawable context:_glContext];
     }
 }
 

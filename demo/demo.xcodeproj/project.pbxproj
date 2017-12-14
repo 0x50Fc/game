@@ -14,6 +14,8 @@
 		ACF5C2FD1FDFA5470018523C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C2FC1FDFA5470018523C /* main.m */; };
 		ACF5C3101FDFAD610018523C /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = ACF5C30F1FDFAD610018523C /* main.js */; };
 		ACF5C3131FDFAD770018523C /* home.js in Resources */ = {isa = PBXBuildFile; fileRef = ACF5C3121FDFAD770018523C /* home.js */; };
+		ACF5C3271FE103BF0018523C /* m1.png in Resources */ = {isa = PBXBuildFile; fileRef = ACF5C3261FE103BE0018523C /* m1.png */; };
+		ACF5C3321FE119940018523C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF5C3311FE119940018523C /* OpenGLES.framework */; };
 		F962407260EED0F4589E07D3 /* Pods_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D5CBE354CB67ABE14126C /* Pods_demo.framework */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +50,8 @@
 		ACF5C3031FDFA6000018523C /* KKGame.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKGame.xcodeproj; path = ../KKGame/KKGame.xcodeproj; sourceTree = "<group>"; };
 		ACF5C30F1FDFAD610018523C /* main.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
 		ACF5C3121FDFAD770018523C /* home.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = home.js; sourceTree = "<group>"; };
+		ACF5C3261FE103BE0018523C /* m1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m1.png; sourceTree = "<group>"; };
+		ACF5C3311FE119940018523C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		C28DDDBB9B7CCB7DAF712CE0 /* Pods-demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-demo/Pods-demo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACF5C3321FE119940018523C /* OpenGLES.framework in Frameworks */,
 				F962407260EED0F4589E07D3 /* Pods_demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +90,7 @@
 		ACF5C2EC1FDFA5470018523C /* demo */ = {
 			isa = PBXGroup;
 			children = (
+				ACF5C3261FE103BE0018523C /* m1.png */,
 				ACF5C2ED1FDFA5470018523C /* AppDelegate.h */,
 				ACF5C2EE1FDFA5470018523C /* AppDelegate.mm */,
 				ACF5C2F31FDFA5470018523C /* Main.storyboard */,
@@ -118,6 +124,7 @@
 		C52DDDACB1B7920AC983B122 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ACF5C3311FE119940018523C /* OpenGLES.framework */,
 				9F7D5CBE354CB67ABE14126C /* Pods_demo.framework */,
 			);
 			name = Frameworks;
@@ -202,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACF5C2FA1FDFA5470018523C /* LaunchScreen.storyboard in Resources */,
+				ACF5C3271FE103BF0018523C /* m1.png in Resources */,
 				ACF5C2F71FDFA5470018523C /* Assets.xcassets in Resources */,
 				ACF5C2F51FDFA5470018523C /* Main.storyboard in Resources */,
 				ACF5C3101FDFAD610018523C /* main.js in Resources */,
@@ -413,6 +421,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BQQ2Y9B27K;
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -435,6 +444,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BQQ2Y9B27K;
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",

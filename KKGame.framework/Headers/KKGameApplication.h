@@ -9,13 +9,17 @@
 #import <Foundation/Foundation.h>
 
 #include <KKGame/kk-script.h>
+#include <KKGame/kk-app.h>
 
 @interface KKGameApplication : NSObject
 
 @property(nonatomic,strong,readonly) NSBundle * bundle;
 @property(nonatomic,assign,readonly) kk::ScriptContext jsContext;
+@property(nonatomic,assign,readonly) kk::Application * app;
 
 -(instancetype) initWithBundle:(NSBundle *) bundle;
+
+-(void) run;
 
 +(instancetype) main;
 

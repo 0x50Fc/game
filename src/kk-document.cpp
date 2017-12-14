@@ -13,21 +13,14 @@
 namespace kk {
     
     Element * Document::rootElement() {
-        return dynamic_cast<Element *>(_rootElement.get());
+        return _rootElement.get();
     }
     
     void Document::setRootElement(Element * element) {
-        _rootElement.set(element);
+        _rootElement.set(this,element);
     }
     
-    Document::Document(ScriptContext context,ScriptPtr ptr)
-        :kk::EventEmitter(context,ptr)
-            ,_rootElement(this,&P::rootElement)
-            ,_app(this,&P::app){
-        
-    }
-    
-    Element * Document::createElement(kk::Class isa) {
+    Element * Document::createElement(kk::Class * isa) {
         
         ScriptContext ctx = context();
         ScriptPushObject(ctx, this);
@@ -37,7 +30,6 @@ namespace kk {
 
     Element * Document::createElement(CString name) {
         
-        kk::Class isa = NULL;
         ScriptContext ctx = context();
         
         duk_push_global_object(ctx);
@@ -46,18 +38,17 @@ namespace kk {
         duk_get_prop(ctx, -2);
         
         if(duk_is_c_function(ctx, -1)) {
-            isa = duk_get_c_function(ctx, -1);
-        }
-        
-        duk_pop_n(ctx, 2);
-        
-        if(isa) {
-            return createElement(isa);
+            ScriptPushObject(ctx, this);
+            duk_new(ctx, 1);
+            duk_remove(ctx, -2);
+            return dynamic_cast<Element *>(ScriptGetObject(ctx, -1));
+        } else {
+            duk_pop_n(ctx, 2);
         }
         
         kk::Log("Not Found Element Class %s",name);
         
-        return createElement(Element::Class);
+        return createElement(&Element::Class);
     }
     
     Element * Document::element(Int64 id) {
@@ -101,7 +92,7 @@ namespace kk {
         
         duk_push_string(ctx, "_elements");
         duk_push_object(ctx);
-        duk_put_prop(ctx, -3);
+        duk_def_prop(ctx, -3, DUK_DEFPROP_HAVE_VALUE);
         
         duk_pop(ctx);
         
@@ -132,9 +123,9 @@ namespace kk {
         EventEmitter::emit(name, event);
         ElementActionEvent * e = dynamic_cast<ElementActionEvent *>(event);
         
-        if(e && e->actionType.get() == ElementActionTypeRemove) {
+        if(e && e->actionType() == ElementActionTypeRemove) {
             
-            Element * element = dynamic_cast<Element *>( e->element.get() );
+            Element * element = dynamic_cast<Element *>( e->element() );
             
             if(element) {
                 
@@ -145,9 +136,9 @@ namespace kk {
                 }
             }
         } else if(e &&
-                (e->actionType.get() == ElementActionTypeAdd)) {
+                (e->actionType() == ElementActionTypeAdd)) {
             
-            Element * element = dynamic_cast<Element *>( e->asElement.get() );
+            Element * element = dynamic_cast<Element *>( e->asElement() );
             
             if(element) {
                 
@@ -159,9 +150,9 @@ namespace kk {
                     
                 }
             }
-        } else if(e && e->actionType.get() == ElementActionTypeProperty && e->property->property() == &kk::P::id) {
+        } else if(e && e->actionType() == ElementActionTypeProperty && e->property()->name() == &kk::named::id) {
             
-            Element * element = dynamic_cast<Element *>( e->asElement.get() );
+            Element * element = dynamic_cast<Element *>( e->asElement() );
             
             if(element) {
                 
@@ -184,6 +175,19 @@ namespace kk {
     void Document::setApp(Application * app) {
         _app.set(app);
     }
+    
+    ObjectProperty Document::RootElement(&kk::named::rootElement, (ObjectProperty::Getter)&Document::rootElement,(ObjectProperty::Setter)&Document::setRootElement);
+    ObjectProperty Document::App(&kk::named::app,(ObjectProperty::Getter)&Document::app,(ObjectProperty::Setter)&Document::setApp);
+    
+    Property *Document::Propertys[] = {
+        &Document::RootElement,
+        &Document::App,
+        NULL
+    };
+    
+    
+    IMP_CLASS(Document, EventEmitter, Document::Propertys, NULL);
+    
 
 }
 

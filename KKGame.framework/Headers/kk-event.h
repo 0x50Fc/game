@@ -19,10 +19,7 @@
 namespace kk {
     
     class Event : public Object {
-    public:
         DEF_CLASS(Event)
-    protected:
-        Event(ScriptContext context,ScriptPtr ptr);
     };
     
     typedef void (Object::*OnEventFunction)(Event * event);
@@ -31,8 +28,8 @@ namespace kk {
     class EventCaller;
     
     class EventEmitter : public Object {
+    DEF_CLASS(EventEmitter)
     public:
-        DEF_CLASS(EventEmitter)
         virtual void on(CString name,Object * object,OnEventFunction func);
         virtual void off(CString name,Object * object,OnEventFunction func);
         virtual void on(CString name,EventFunction func,void * context);
@@ -42,8 +39,6 @@ namespace kk {
         virtual void emit(CString name,Event * event);
         virtual void init();
         virtual Event * defaultEvent(CString name);
-    protected:
-        EventEmitter(ScriptContext context,ScriptPtr ptr);
     private:
         std::list<EventCaller *> _callers;
     };

@@ -23,34 +23,38 @@
 
 /* Begin PBXBuildFile section */
 		A722E0DD7B2FB074B49B7167 /* Pods_KKGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3898ABC1B2DCDD58FE009C1C /* Pods_KKGame.framework */; };
-		AC6FE6C41FDA8189006E4D71 /* kk-gl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC9BF9C91FDA72BC00F7FEE8 /* kk-gl.cpp */; };
+		AC1AB04F1FE265E200F229FD /* KKBoxGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC1AB04D1FE265E200F229FD /* KKBoxGame.cpp */; };
+		AC1AB0501FE265E200F229FD /* KKBoxGame.hpp in Headers */ = {isa = PBXBuildFile; fileRef = AC1AB04E1FE265E200F229FD /* KKBoxGame.hpp */; };
 		AC6FE7081FDA8D0F006E4D71 /* KKGameView.h in Headers */ = {isa = PBXBuildFile; fileRef = AC6FE7061FDA8D0F006E4D71 /* KKGameView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AC6FE7091FDA8D0F006E4D71 /* KKGameView.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC6FE7071FDA8D0F006E4D71 /* KKGameView.mm */; };
 		AC6FE70C1FDA94C9006E4D71 /* KKGameApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = AC6FE70A1FDA94C9006E4D71 /* KKGameApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AC6FE70D1FDA94C9006E4D71 /* KKGameApplication.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC6FE70B1FDA94C9006E4D71 /* KKGameApplication.mm */; };
-		AC6FE70F1FDA95E2006E4D71 /* kk-game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC6FE70E1FDA95E2006E4D71 /* kk-game.cpp */; };
 		AC871F871FD7A1620078923F /* KKGame.h in Headers */ = {isa = PBXBuildFile; fileRef = AC871F851FD7A1620078923F /* KKGame.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AC871F981FD7A3090078923F /* kk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC871F971FD7A3090078923F /* kk.cpp */; };
 		AC9BF9C81FDA725900F7FEE8 /* kk-gl.h in Headers */ = {isa = PBXBuildFile; fileRef = AC9BF9C71FDA725900F7FEE8 /* kk-gl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ACE05BE91FD8E2520043912D /* kk-property.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05BE81FD8E2520043912D /* kk-property.cpp */; };
 		ACE05BEA1FD8E29E0043912D /* kk.h in Headers */ = {isa = PBXBuildFile; fileRef = AC871F961FD7A2FD0078923F /* kk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ACE05BEB1FD8E29E0043912D /* kk-config.h in Headers */ = {isa = PBXBuildFile; fileRef = AC871F991FD7A39F0078923F /* kk-config.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ACE05BEC1FD8E29E0043912D /* kk-object.h in Headers */ = {isa = PBXBuildFile; fileRef = AC871FA31FD7A4C40078923F /* kk-object.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ACE05BED1FD8E29E0043912D /* kk-script.h in Headers */ = {isa = PBXBuildFile; fileRef = AC871FA41FD7A6350078923F /* kk-script.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ACE05BEE1FD8E29E0043912D /* kk-property.h in Headers */ = {isa = PBXBuildFile; fileRef = ACE05BE51FD8DD580043912D /* kk-property.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ACE05BEF1FD8EEBC0043912D /* kk-object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC871FA51FD7A8350078923F /* kk-object.cpp */; };
-		ACE05BF21FD8F9210043912D /* kk-element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05BF11FD8F9210043912D /* kk-element.cpp */; };
 		ACE05BF91FD909070043912D /* kk-element.h in Headers */ = {isa = PBXBuildFile; fileRef = ACE05BF01FD8F0220043912D /* kk-element.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ACE05BFB1FD909710043912D /* kk-game.h in Headers */ = {isa = PBXBuildFile; fileRef = ACE05BFA1FD9096E0043912D /* kk-game.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ACE05BFE1FD90B3A0043912D /* kk-document.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05BFD1FD90B3A0043912D /* kk-document.cpp */; };
 		ACE05C001FD9262F0043912D /* kk-event.h in Headers */ = {isa = PBXBuildFile; fileRef = ACE05BFF1FD9261E0043912D /* kk-event.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ACE05C021FD927B00043912D /* kk-event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05C011FD927B00043912D /* kk-event.cpp */; };
 		ACF5C2BA1FDE35120018523C /* KKGameViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = ACF5C2B81FDE35120018523C /* KKGameViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ACF5C2BF1FDE43BC0018523C /* KKGLTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C2BE1FDE43BC0018523C /* KKGLTexture.mm */; };
 		ACF5C2C11FDE5C5A0018523C /* kk-app.h in Headers */ = {isa = PBXBuildFile; fileRef = ACF5C2C01FDE5BDF0018523C /* kk-app.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ACF5C2C31FDE5DD00018523C /* kk-app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C2C21FDE5DD00018523C /* kk-app.cpp */; };
 		ACF5C2C41FDF9E0C0018523C /* kk-document.h in Headers */ = {isa = PBXBuildFile; fileRef = ACE05BFC1FD909A90043912D /* kk-document.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ACF5C30E1FDFA9B90018523C /* KKGameViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C2B91FDE35120018523C /* KKGameViewController.mm */; };
+		ACF5C3151FE0BF820018523C /* kk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC871F971FD7A3090078923F /* kk.cpp */; };
+		ACF5C3161FE0BF8C0018523C /* kk-object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC871FA51FD7A8350078923F /* kk-object.cpp */; };
+		ACF5C3171FE0BF8F0018523C /* kk-property.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05BE81FD8E2520043912D /* kk-property.cpp */; };
+		ACF5C3181FE0BFA70018523C /* kk-event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05C011FD927B00043912D /* kk-event.cpp */; };
+		ACF5C31B1FE0C7490018523C /* kk-element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05BF11FD8F9210043912D /* kk-element.cpp */; };
+		ACF5C31C1FE0C7490018523C /* kk-document.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE05BFD1FD90B3A0043912D /* kk-document.cpp */; };
+		ACF5C31D1FE0D9F30018523C /* kk-gl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC9BF9C91FDA72BC00F7FEE8 /* kk-gl.cpp */; };
+		ACF5C31E1FE0E4A20018523C /* kk-app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C2C21FDE5DD00018523C /* kk-app.cpp */; };
+		ACF5C31F1FE0E65D0018523C /* kk-game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC6FE70E1FDA95E2006E4D71 /* kk-game.cpp */; };
+		ACF5C3201FE0EC410018523C /* KKGameView.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC6FE7071FDA8D0F006E4D71 /* KKGameView.mm */; };
+		ACF5C3211FE0EC410018523C /* KKGameViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C2B91FDE35120018523C /* KKGameViewController.mm */; };
+		ACF5C3221FE0EC410018523C /* KKGameApplication.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC6FE70B1FDA94C9006E4D71 /* KKGameApplication.mm */; };
+		ACF5C3231FE0EC410018523C /* KKGLTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C2BE1FDE43BC0018523C /* KKGLTexture.mm */; };
+		ACF5C32D1FE109240018523C /* GLSLTexture.cc in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C3291FE109240018523C /* GLSLTexture.cc */; };
+		ACF5C32F1FE109240018523C /* GLSLTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = ACF5C32B1FE109240018523C /* GLSLTexture.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +71,8 @@
 		174ADB27401839A18F8A87E6 /* Pods-KKGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KKGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KKGame/Pods-KKGame.debug.xcconfig"; sourceTree = "<group>"; };
 		3898ABC1B2DCDD58FE009C1C /* Pods_KKGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KKGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BB40B15EFE3DB515EFB5580 /* Pods-KKGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KKGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-KKGame/Pods-KKGame.release.xcconfig"; sourceTree = "<group>"; };
+		AC1AB04D1FE265E200F229FD /* KKBoxGame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = KKBoxGame.cpp; sourceTree = "<group>"; };
+		AC1AB04E1FE265E200F229FD /* KKBoxGame.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KKBoxGame.hpp; sourceTree = "<group>"; };
 		AC6FE7061FDA8D0F006E4D71 /* KKGameView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKGameView.h; sourceTree = "<group>"; };
 		AC6FE7071FDA8D0F006E4D71 /* KKGameView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KKGameView.mm; sourceTree = "<group>"; };
 		AC6FE70A1FDA94C9006E4D71 /* KKGameApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKGameApplication.h; sourceTree = "<group>"; };
@@ -97,6 +103,10 @@
 		ACF5C2BE1FDE43BC0018523C /* KKGLTexture.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KKGLTexture.mm; sourceTree = "<group>"; };
 		ACF5C2C01FDE5BDF0018523C /* kk-app.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-app.h"; sourceTree = "<group>"; };
 		ACF5C2C21FDE5DD00018523C /* kk-app.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-app.cpp"; sourceTree = "<group>"; };
+		ACF5C3291FE109240018523C /* GLSLTexture.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLSLTexture.cc; sourceTree = "<group>"; };
+		ACF5C32A1FE109240018523C /* GLSLTexture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GLSLTexture.fsh; sourceTree = "<group>"; };
+		ACF5C32B1FE109240018523C /* GLSLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSLTexture.h; sourceTree = "<group>"; };
+		ACF5C32C1FE109240018523C /* GLSLTexture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GLSLTexture.vsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +138,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AC1AB04A1FE265BE00F229FD /* box */ = {
+			isa = PBXGroup;
+			children = (
+				AC1AB04D1FE265E200F229FD /* KKBoxGame.cpp */,
+				AC1AB04E1FE265E200F229FD /* KKBoxGame.hpp */,
+			);
+			name = box;
+			path = ../../box;
+			sourceTree = "<group>";
+		};
 		AC871F781FD7A1620078923F = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +169,8 @@
 		AC871F841FD7A1620078923F /* KKGame */ = {
 			isa = PBXGroup;
 			children = (
+				AC1AB04A1FE265BE00F229FD /* box */,
+				ACF5C3281FE109240018523C /* glsl */,
 				AC871F951FD7A2EA0078923F /* include */,
 				AC871F941FD7A2E30078923F /* src */,
 				AC871F851FD7A1620078923F /* KKGame.h */,
@@ -200,6 +222,18 @@
 			path = ../../include;
 			sourceTree = "<group>";
 		};
+		ACF5C3281FE109240018523C /* glsl */ = {
+			isa = PBXGroup;
+			children = (
+				ACF5C3291FE109240018523C /* GLSLTexture.cc */,
+				ACF5C32A1FE109240018523C /* GLSLTexture.fsh */,
+				ACF5C32B1FE109240018523C /* GLSLTexture.h */,
+				ACF5C32C1FE109240018523C /* GLSLTexture.vsh */,
+			);
+			name = glsl;
+			path = ../../glsl;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -212,6 +246,7 @@
 				ACF5C2C11FDE5C5A0018523C /* kk-app.h in Headers */,
 				AC871F871FD7A1620078923F /* KKGame.h in Headers */,
 				AC6FE7081FDA8D0F006E4D71 /* KKGameView.h in Headers */,
+				ACF5C32F1FE109240018523C /* GLSLTexture.h in Headers */,
 				ACE05BEE1FD8E29E0043912D /* kk-property.h in Headers */,
 				ACE05BFB1FD909710043912D /* kk-game.h in Headers */,
 				ACF5C2C41FDF9E0C0018523C /* kk-document.h in Headers */,
@@ -219,6 +254,7 @@
 				ACE05BED1FD8E29E0043912D /* kk-script.h in Headers */,
 				ACE05C001FD9262F0043912D /* kk-event.h in Headers */,
 				ACF5C2BA1FDE35120018523C /* KKGameViewController.h in Headers */,
+				AC1AB0501FE265E200F229FD /* KKBoxGame.hpp in Headers */,
 				AC6FE70C1FDA94C9006E4D71 /* KKGameApplication.h in Headers */,
 				AC9BF9C81FDA725900F7FEE8 /* kk-gl.h in Headers */,
 				ACE05BF91FD909070043912D /* kk-element.h in Headers */,
@@ -350,19 +386,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC6FE6C41FDA8189006E4D71 /* kk-gl.cpp in Sources */,
-				ACE05C021FD927B00043912D /* kk-event.cpp in Sources */,
-				AC6FE7091FDA8D0F006E4D71 /* KKGameView.mm in Sources */,
-				ACE05BFE1FD90B3A0043912D /* kk-document.cpp in Sources */,
-				ACE05BF21FD8F9210043912D /* kk-element.cpp in Sources */,
-				ACE05BEF1FD8EEBC0043912D /* kk-object.cpp in Sources */,
-				AC6FE70D1FDA94C9006E4D71 /* KKGameApplication.mm in Sources */,
-				ACF5C2C31FDE5DD00018523C /* kk-app.cpp in Sources */,
-				ACF5C30E1FDFA9B90018523C /* KKGameViewController.mm in Sources */,
-				ACF5C2BF1FDE43BC0018523C /* KKGLTexture.mm in Sources */,
-				ACE05BE91FD8E2520043912D /* kk-property.cpp in Sources */,
-				AC871F981FD7A3090078923F /* kk.cpp in Sources */,
-				AC6FE70F1FDA95E2006E4D71 /* kk-game.cpp in Sources */,
+				ACF5C3221FE0EC410018523C /* KKGameApplication.mm in Sources */,
+				ACF5C31D1FE0D9F30018523C /* kk-gl.cpp in Sources */,
+				ACF5C31F1FE0E65D0018523C /* kk-game.cpp in Sources */,
+				ACF5C31C1FE0C7490018523C /* kk-document.cpp in Sources */,
+				ACF5C32D1FE109240018523C /* GLSLTexture.cc in Sources */,
+				ACF5C31B1FE0C7490018523C /* kk-element.cpp in Sources */,
+				ACF5C3211FE0EC410018523C /* KKGameViewController.mm in Sources */,
+				ACF5C3161FE0BF8C0018523C /* kk-object.cpp in Sources */,
+				ACF5C3151FE0BF820018523C /* kk.cpp in Sources */,
+				ACF5C3181FE0BFA70018523C /* kk-event.cpp in Sources */,
+				ACF5C3171FE0BF8F0018523C /* kk-property.cpp in Sources */,
+				ACF5C3201FE0EC410018523C /* KKGameView.mm in Sources */,
+				ACF5C31E1FE0E4A20018523C /* kk-app.cpp in Sources */,
+				ACF5C3231FE0EC410018523C /* KKGLTexture.mm in Sources */,
+				AC1AB04F1FE265E200F229FD /* KKBoxGame.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

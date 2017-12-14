@@ -11,6 +11,48 @@
 
     namespace kk {
 
+
+        Class::Class(Class * isa,Property ** propertys,ClassPrototypeFunc prototype,ClassAllocFunc alloc): isa(isa),propertys(propertys),prototype(prototype),alloc(alloc){
+        }
+        
+        Property * Class::getProperty(kk::Id id){
+            
+            if(_propertys.empty() && propertys) {
+                Property ** p = propertys;
+                while(p && *p) {
+                    _propertys[(*p)->name()->id()] = *p;
+                    p++;
+                }
+            }
+            
+            std::map<kk::Id,Property *>::iterator i = _propertys.find(id);
+            
+            if(i != _propertys.end()) {
+                return i->second;
+            }
+            
+            if(isa) {
+                return isa->getProperty(id);
+            }
+            
+            return NULL;
+        }
+        
+        ScriptResult Object::Alloc(kk::ScriptContext context) {
+            duk_push_this(context);
+            Object * v = new Object(context,duk_get_heapptr(context,-1));
+            ScriptInitObject(context,v);
+            duk_pop(context);
+            v->init();
+            return 0;
+        }
+        
+        Class Object::Class = {NULL,NULL,NULL,Object::Alloc};
+        
+        kk::Class * Object::getClass() {
+            return & Object::Class;
+        }
+        
         Object::Object(ScriptContext context,ScriptPtr ptr): _ptr(ptr),_context(context) {
             
         }
@@ -32,8 +74,6 @@
             
         }
         
-        Object * Object::Null = NULL;
-        
         String Object::toString() {
             return "[Object]";
         }
@@ -44,14 +84,6 @@
         
         ScriptContext Object::context() {
             return _context;
-        }
-        
-        std::map<PropertyId,VProperty *>::iterator Object::begin() {
-            return _propertys.begin();
-        }
-        
-        std::map<PropertyId,VProperty *>::iterator Object::end() {
-            return _propertys.end();
         }
         
         void Object::weak(Object ** value) {
@@ -65,28 +97,56 @@
             }
         }
         
-        VProperty * Object::getProperty(PropertyId pid) {
-            std::map<PropertyId,VProperty *>::iterator i = _propertys.find(pid);
-            if(i != _propertys.end()) {
-                return i->second;
-            }
-            return NULL;
-        }
-        
-        void Object::addProperty(VProperty * property) {
-            _propertys[property->property()->pid()] = property;
-        }
-        
-        void Object::onChangeProperty(VProperty * property) {
+        void Object::change(Property * property) {
             
         }
         
-        void ScriptOpenClass(ScriptContext context, CString name, Class isa) {
+        void ScriptGetPrototype(ScriptContext context,  Class * isa) {
+            
+            duk_push_global_object(context);
+            
+            duk_push_sprintf(context, "__class_%lx",(unsigned long) isa);
+            duk_get_prop(context, -2);
+            
+            if(duk_is_object(context, -1)) {
+                duk_remove(context, -2);
+            } else {
+                duk_pop(context);
+                
+                duk_push_object(context);
+                duk_push_sprintf(context, "__class_%lx",(unsigned long) isa);
+                duk_dup(context, -2);
+                
+                if(isa) {
+                    
+                    Property **p = isa->propertys;
+                    
+                    while(p && *p) {
+                        (*p)->def(context);
+                        p ++;
+                    }
+                    
+                    if(isa->prototype) {
+                        (*isa->prototype)(context);
+                    }
+                }
+                
+                if(isa->isa) {
+                    ScriptGetPrototype(context, isa->isa);
+                    duk_set_prototype(context, -2);
+                }
+                
+                duk_put_prop(context, -4);
+                duk_remove(context, -2);
+            }
+        }
+        
+        void ScriptOpenClass(ScriptContext context, CString name, Class * isa) {
             
             duk_push_global_object(context);
             
             duk_push_string(context, name);
-            duk_push_c_function(context, isa, DUK_VARARGS);
+            duk_push_c_function(context, isa->alloc, DUK_VARARGS);
             duk_put_prop(context, -3);
             
             duk_pop(context);
@@ -105,87 +165,20 @@
             return 0;
         }
         
-        static ScriptResult ScriptObjectGetProperty(ScriptContext context) {
-            
-            VProperty * v = NULL;
-            
-            duk_push_current_function(context);
-            
-            duk_push_string(context, "property");
-            duk_get_prop(context, -2);
-            
-            if(duk_is_pointer(context, -1)) {
-                v = (VProperty *) duk_to_pointer(context, -1);
-            }
-            
-            duk_pop_n(context, 2);
-            
-            if(v) {
-                return v->getScript();
-            }
-            
-            return 0;
-        }
         
-        static ScriptResult ScriptObjectSetProperty(ScriptContext context) {
+        void ScriptInitObject(ScriptContext ctx,Object * object) {
             
-            VProperty * v = NULL;
+            duk_push_string(ctx, "__object");
+            duk_push_pointer(ctx, object);
+            duk_def_prop(ctx,
+                         -3,
+                         DUK_DEFPROP_HAVE_VALUE );
             
-            duk_push_current_function(context);
+            ScriptGetPrototype(ctx, object->getClass());
+            duk_set_prototype(ctx, -2);
             
-            duk_push_string(context, "property");
-            duk_get_prop(context, -2);
-            
-            if(duk_is_pointer(context, -1)) {
-                v = (VProperty *) duk_to_pointer(context, -1);
-            }
-            
-            duk_pop_n(context, 2);
-            
-            if(v) {
-                return v->setScript();
-            }
-            
-            return 0;
-        }
-        
-        void ScriptInitObject(ScriptContext context,Object * object) {
-            
-            duk_push_string(context, "__object");
-            duk_push_pointer(context, (void*) object);
-            duk_put_prop(context, -3);
-            
-            std::map<PropertyId,VProperty *>::iterator i = object->begin();
-
-            while(i != object->end()) {
-                
-                VProperty * v = i->second;
-             
-                duk_push_string(context, v->property()->name());
-                duk_push_c_function(context, ScriptObjectGetProperty, 0);
-                
-                duk_push_string(context, "property");
-                duk_push_pointer(context, v);
-                duk_put_prop(context, -3);
-                
-                duk_push_c_function(context, ScriptObjectSetProperty, 1);
-                
-                duk_push_string(context, "property");
-                duk_push_pointer(context, v);
-                duk_put_prop(context, -3);
-                
-                duk_def_prop(context,
-                             -4,
-                             DUK_DEFPROP_HAVE_GETTER |
-                             DUK_DEFPROP_HAVE_SETTER |
-                             DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_ENUMERABLE);
-                
-                i++;
-            }
-            
-            duk_push_c_function(context, ScriptObjectDealloc, 1);
-            duk_set_finalizer(context, -2);
-            
+            duk_push_c_function(ctx, ScriptObjectDealloc, 1);
+            duk_set_finalizer(ctx, -2);
         }
         
         void ScriptPushObject(ScriptContext context,Object * object) {
@@ -209,9 +202,9 @@
             return v;
         }
         
-        Object * ScriptNewObject(ScriptContext context, Class isa , int nargs){
+        Object * ScriptNewObject(ScriptContext context, Class * isa , int nargs){
             
-            duk_push_c_function(context, isa, DUK_VARARGS);
+            duk_push_c_function(context, isa->alloc, DUK_VARARGS);
             
             if(nargs > 0) {
                 duk_insert(context, - nargs - 1);
@@ -224,7 +217,7 @@
         
         void ScriptNewGlobalObject(ScriptContext context,Object * object) {
             duk_push_global_object(context);
-            duk_push_sprintf(context, "_G_%lx",(unsigned long) object->ptr());
+            duk_push_sprintf(context, "__strong_%lx",(unsigned long) object->ptr());
             ScriptPushObject(context, object);
             duk_put_prop(context,-3);
             duk_pop(context);
@@ -232,7 +225,7 @@
         
         void ScriptDeleteGlobalObject(ScriptContext context,Object * object) {
             duk_push_global_object(context);
-            duk_push_sprintf(context, "_G_%lx",(unsigned long) object->ptr());
+            duk_push_sprintf(context, "__strong_%lx",(unsigned long) object->ptr());
             duk_del_prop(context,-2);
             duk_pop(context);
         }

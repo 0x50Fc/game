@@ -17,14 +17,14 @@
 namespace kk {
     
     class Application : public kk::Object {
+    DEF_CLASS(Application)
     public:
-        DEF_CLASS(Application)
-        virtual CString getString(CString path);
-        virtual kk::Uint8 * getBytes(CString path,kk::Uint * size);
+        virtual kk::Boolean has(CString path);
+        virtual CString getString(CString path); /** duk_pop(ctx) **/
+        virtual kk::Uint8 * getBytes(CString path,kk::Uint * size); /** duk_pop(ctx) **/
         virtual kk::CString basePath();
         virtual void setBasePath(kk::CString basePath);
     protected:
-        Application(ScriptContext context,ScriptPtr ptr);
         kk::String _basePath;
     };
     

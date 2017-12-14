@@ -96,6 +96,10 @@ namespace kk {
             
         }
         
+        if(size) {
+            * size = (kk::Uint) st.st_size;
+        }
+        
         return v;
         
     }
@@ -108,8 +112,37 @@ namespace kk {
         _basePath = basePath;
     }
     
-    Application::Application(ScriptContext context,ScriptPtr ptr):kk::Object(context,ptr) {
+    static ScriptResult ApplicationGetStringFunc(ScriptContext ctx) {
         
+        duk_push_this(ctx);
+        
+        Application * v = dynamic_cast<Application *>(ScriptGetObject(ctx, -1));
+        
+        duk_pop(ctx);
+        
+        if(v) {
+            
+            int nargs = duk_get_top(ctx);
+            
+            if(nargs > 0 && duk_is_string(ctx, - nargs)) {
+                v->getString(duk_to_string(ctx, - nargs));
+                return 1;
+            }
+            
+        }
+        
+        return 0;
     }
+    
+    static ScriptResult ApplicationPrototypeFunc(ScriptContext ctx) {
+        
+        duk_push_string(ctx, "getString");
+        duk_push_c_function(ctx, ApplicationGetStringFunc, 1);
+        duk_put_prop(ctx, -3);
+        
+        return 0;
+    }
+    
+    IMP_CLASS(Application, Object, NULL, ApplicationPrototypeFunc)
     
 }

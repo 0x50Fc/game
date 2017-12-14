@@ -23,83 +23,422 @@ namespace kk {
     
     namespace gl {
         
-        Vec4Property::Vec4Property(Object * object,Property * property):kk::TProperty<vec4>(object,property) {
+        Vec4Property::Vec4Property(Named * name, Getter getter, Setter setter):TProperty<vec4&>(name,getter,setter) {
             
         }
         
-        ScriptResult Vec4Property::getScript() {
+        static ScriptResult Vec4PropertyGetFunc(ScriptContext ctx) {
+            
+            duk_push_this(ctx);
+            
+            Object * v = ScriptGetObject(ctx, -1);
+            
+            duk_pop(ctx);
+            
+            duk_push_current_function(ctx);
+            
+            duk_get_prop_string(ctx, -1, "property");
+            
+            Vec4Property * p = (Vec4Property *) duk_get_pointer(ctx, -1);
+            
+            duk_pop_n(ctx, 2);
+            
+            if(v && p){
+                vec4& vv = p->get(v);
+                duk_push_array(ctx);
+                
+                duk_push_number(ctx, vv.x);
+                duk_put_prop_index(ctx, -3, 0);
+                
+                duk_push_number(ctx, vv.y);
+                duk_put_prop_index(ctx, -3, 1);
+                
+                duk_push_number(ctx, vv.z);
+                duk_put_prop_index(ctx, -3, 2);
+                
+                duk_push_number(ctx, vv.w);
+                duk_put_prop_index(ctx, -3, 3);
+                
+            } else {
+                duk_push_undefined(ctx);
+            }
+            
+            return 1;
+        }
+        
+        static ScriptResult Vec4PropertySetFunc(ScriptContext ctx) {
+            
+            duk_push_this(ctx);
+            
+            Object * v = ScriptGetObject(ctx, -1);
+            
+            duk_pop(ctx);
+            
+            duk_push_current_function(ctx);
+            
+            duk_get_prop_string(ctx, -1, "property");
+            
+            Vec4Property * p = (Vec4Property *) duk_get_pointer(ctx, -1);
+            
+            duk_pop_n(ctx, 2);
+            
+            if(v && p) {
+                
+                int nargs = duk_get_top(ctx);
+                
+                if(nargs >0 && duk_is_array(ctx, -nargs) ) {
+                    vec4 vv(0);
+                    
+                    duk_size_t n = duk_get_length(ctx, -nargs);
+                    
+                    if(n > 0) {
+                        duk_get_prop_index(ctx, -nargs, 0);
+                        vv.x = duk_to_number(ctx, -1);
+                        duk_pop(ctx);
+                    }
+                    
+                    if(n > 1) {
+                        duk_get_prop_index(ctx, -nargs, 1);
+                        vv.y = duk_to_number(ctx, -1);
+                        duk_pop(ctx);
+                    }
+                    
+                    if(n > 2) {
+                        duk_get_prop_index(ctx, -nargs, 2);
+                        vv.z = duk_to_number(ctx, -1);
+                        duk_pop(ctx);
+                    }
+                    
+                    if(n > 3) {
+                        duk_get_prop_index(ctx, -nargs, 3);
+                        vv.w = duk_to_number(ctx, -1);
+                        duk_pop(ctx);
+                    }
+                    
+                    p->set(v,vv);
+                } else {
+                    vec4 vv(0);
+                    p->set(v, vv);
+                }
+            }
+            
             return 0;
         }
         
-        ScriptResult Vec4Property::setScript() {
-            return 0;
-        }
-        
-        String Vec4Property::toString() {
-            char v[255];
-            snprintf(v, sizeof(v), "%g %g %g %g",_value.x,_value.y,_value.z,_value.w);
-            return v;
-        }
-        
-        void Vec4Property::set(CString value) {
+        void Vec4Property::def(ScriptContext ctx) {
+            
+            duk_push_string(ctx, _name->name());
+            
+            duk_push_c_function(ctx, Vec4PropertyGetFunc, 0);
+            duk_push_string(ctx, "property");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_c_function(ctx, Vec4PropertySetFunc, 1);
+            duk_push_string(ctx, "property");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            
+            duk_def_prop(ctx,
+                         -4,
+                         DUK_DEFPROP_HAVE_GETTER |
+                         DUK_DEFPROP_HAVE_SETTER |
+                         DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_ENUMERABLE);
             
         }
         
-        void Vec4Property::set(vec4 value) {
-            _value = value;
-            change();
-        }
-        
-        Vec3Property::Vec3Property(Object * object,Property * property):kk::TProperty<vec3>(object,property) {
+        Vec3Property::Vec3Property(Named * name, Getter getter, Setter setter):TProperty<vec3&>(name,getter,setter) {
             
         }
         
-        ScriptResult Vec3Property::getScript() {
+        static ScriptResult Vec3PropertyGetFunc(ScriptContext ctx) {
+            
+            duk_push_this(ctx);
+            
+            Object * v = ScriptGetObject(ctx, -1);
+            
+            duk_pop(ctx);
+            
+            duk_push_current_function(ctx);
+            
+            duk_get_prop_string(ctx, -1, "property");
+            
+            Vec3Property * p = (Vec3Property *) duk_get_pointer(ctx, -1);
+            
+            duk_pop_n(ctx, 2);
+            
+            if(v && p){
+                
+                vec3& vv = p->get(v);
+                
+                duk_push_array(ctx);
+                
+                duk_push_number(ctx, vv.x);
+                duk_put_prop_index(ctx, -3, 0);
+                
+                duk_push_number(ctx, vv.y);
+                duk_put_prop_index(ctx, -3, 1);
+                
+                duk_push_number(ctx, vv.z);
+                duk_put_prop_index(ctx, -3, 2);
+                
+                
+            } else {
+                duk_push_undefined(ctx);
+            }
+            
+            return 1;
+        }
+        
+        static ScriptResult Vec3PropertySetFunc(ScriptContext ctx) {
+            
+            duk_push_this(ctx);
+            
+            Object * v = ScriptGetObject(ctx, -1);
+            
+            duk_pop(ctx);
+            
+            duk_push_current_function(ctx);
+            
+            duk_get_prop_string(ctx, -1, "property");
+            
+            Vec3Property * p = (Vec3Property *) duk_get_pointer(ctx, -1);
+            
+            duk_pop_n(ctx, 2);
+            
+            if(v && p) {
+                
+                int nargs = duk_get_top(ctx);
+                
+                if(nargs >0 && duk_is_array(ctx, -nargs) ) {
+                    
+                    vec3 vv(0);
+                    
+                    duk_size_t n = duk_get_length(ctx, -nargs);
+                    
+                    if(n > 0) {
+                        duk_get_prop_index(ctx, -nargs, 0);
+                        vv.x = duk_to_number(ctx, -1);
+                        duk_pop(ctx);
+                    }
+                    
+                    if(n > 1) {
+                        duk_get_prop_index(ctx, -nargs, 1);
+                        vv.y = duk_to_number(ctx, -1);
+                        duk_pop(ctx);
+                    }
+                   
+                    if(n > 2) {
+                        duk_get_prop_index(ctx, -nargs, 2);
+                        vv.z = duk_to_number(ctx, -1);
+                        duk_pop(ctx);
+                    }
+                    
+                    p->set(v,vv);
+                    
+                } else {
+                    vec3 vv(0);
+                    p->set(v, vv);
+                }
+            }
+            
             return 0;
         }
         
-        ScriptResult Vec3Property::setScript() {
-            return 0;
-        }
-        
-        String Vec3Property::toString() {
-            char v[255];
-            snprintf(v, sizeof(v), "%g %g %g",_value.x,_value.y,_value.z);
-            return v;
-        }
-        
-        void Vec3Property::set(CString value) {
+        void Vec3Property::def(ScriptContext ctx) {
+            
+            duk_push_string(ctx, _name->name());
+            
+            duk_push_c_function(ctx, Vec3PropertyGetFunc, 0);
+            duk_push_string(ctx, "property");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_c_function(ctx, Vec3PropertySetFunc, 1);
+            duk_push_string(ctx, "property");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            
+            duk_def_prop(ctx,
+                         -4,
+                         DUK_DEFPROP_HAVE_GETTER |
+                         DUK_DEFPROP_HAVE_SETTER |
+                         DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_ENUMERABLE);
             
         }
         
-        void Vec3Property::set(vec3 value) {
-            _value = value;
-            change();
-        }
-        
-        Mat4Property::Mat4Property(Object * object,Property * property):kk::TProperty<mat4>(object,property) {
+        Vec2Property::Vec2Property(Named * name, Getter getter, Setter setter):TProperty<vec2&>(name,getter,setter) {
             
         }
         
-        ScriptResult Mat4Property::getScript() {
+        static ScriptResult Vec2PropertyGetFunc(ScriptContext ctx) {
+            
+            duk_push_this(ctx);
+            
+            Object * v = ScriptGetObject(ctx, -1);
+            
+            duk_pop(ctx);
+            
+            duk_push_current_function(ctx);
+            
+            duk_get_prop_string(ctx, -1, "property");
+            
+            Vec2Property * p = (Vec2Property *) duk_get_pointer(ctx, -1);
+            
+            duk_pop_n(ctx, 2);
+            
+            if(v && p){
+                
+                vec2& vv = p->get(v);
+                
+                duk_push_array(ctx);
+                
+                duk_push_number(ctx, vv.x);
+                duk_put_prop_index(ctx, -3, 0);
+                
+                duk_push_number(ctx, vv.y);
+                duk_put_prop_index(ctx, -3, 1);
+                
+                
+            } else {
+                duk_push_undefined(ctx);
+            }
+            
+            return 1;
+        }
+        
+        static ScriptResult Vec2PropertySetFunc(ScriptContext ctx) {
+            
+            duk_push_this(ctx);
+            
+            Object * v = ScriptGetObject(ctx, -1);
+            
+            duk_pop(ctx);
+            
+            duk_push_current_function(ctx);
+            
+            duk_get_prop_string(ctx, -1, "property");
+            
+            Vec2Property * p = (Vec2Property *) duk_get_pointer(ctx, -1);
+            
+            duk_pop_n(ctx, 2);
+            
+            if(v && p) {
+                
+                int nargs = duk_get_top(ctx);
+                
+                if(nargs >0 && duk_is_array(ctx, -nargs) ) {
+                    
+                    vec2 vv(0);
+                    
+                    duk_size_t n = duk_get_length(ctx, -nargs);
+                    
+                    if(n > 0) {
+                        duk_get_prop_index(ctx, -nargs, 0);
+                        vv.x = duk_to_number(ctx, -1);
+                        duk_pop(ctx);
+                    }
+                    
+                    if(n > 1) {
+                        duk_get_prop_index(ctx, -nargs, 1);
+                        vv.y = duk_to_number(ctx, -1);
+                        duk_pop(ctx);
+                    }
+                    
+                    p->set(v,vv);
+                    
+                } else {
+                    vec2 vv(0);
+                    p->set(v, vv);
+                }
+            }
+            
             return 0;
         }
         
-        ScriptResult Mat4Property::setScript() {
-            return 0;
-        }
-        
-        String Mat4Property::toString() {
-            return "";
-        }
-        
-        void Mat4Property::set(CString value) {
+        void Vec2Property::def(ScriptContext ctx) {
+            
+            duk_push_string(ctx, _name->name());
+            
+            duk_push_c_function(ctx, Vec2PropertyGetFunc, 0);
+            duk_push_string(ctx, "property");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_c_function(ctx, Vec2PropertySetFunc, 1);
+            duk_push_string(ctx, "property");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            
+            duk_def_prop(ctx,
+                         -4,
+                         DUK_DEFPROP_HAVE_GETTER |
+                         DUK_DEFPROP_HAVE_SETTER |
+                         DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_ENUMERABLE);
             
         }
         
-        void Mat4Property::set(mat4 value) {
-            _value = value;
-            change();
+        Mat4Property::Mat4Property(Named * name, Getter getter, Setter setter):TProperty<mat4&>(name,getter,setter) {
+            
+        }
+        
+        static ScriptResult Mat4PropertyGetFunc(ScriptContext ctx) {
+            
+            return 0;
+        }
+        
+        static ScriptResult Mat4PropertySetFunc(ScriptContext ctx) {
+            
+    
+            return 0;
+        }
+        
+        void Mat4Property::def(ScriptContext ctx) {
+            
+            duk_push_string(ctx, _name->name());
+            
+            duk_push_c_function(ctx, Mat4PropertyGetFunc, 0);
+            duk_push_string(ctx, "property");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_c_function(ctx, Mat4PropertySetFunc, 1);
+            duk_push_string(ctx, "property");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            
+            duk_def_prop(ctx,
+                         -4,
+                         DUK_DEFPROP_HAVE_GETTER |
+                         DUK_DEFPROP_HAVE_SETTER |
+                         DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_ENUMERABLE);
+            
+        }
+        
+        GLContext::~GLContext() {
+            std::map<std::string,GLProgram *>::iterator i = _programs.begin();
+            while(i != _programs.end()) {
+                delete i->second;
+                i ++;
+            }
+        }
+        
+        void GLContext::set(kk::CString name,GLProgram * program) {
+            GLProgram * v = get(name);
+            if(v != program) {
+                if(v){
+                    delete v;
+                }
+                _programs[name] = program;
+            }
+        }
+        
+        GLProgram * GLContext::get(kk::CString name) {
+            std::map<std::string,GLProgram *>::iterator i = _programs.find(name);
+            if(i != _programs.end()) {
+                return i->second;
+            }
+            return NULL;
         }
         
         GLContextState& GLContext::state() {
@@ -115,48 +454,132 @@ namespace kk {
             _states.erase(_states.begin());
         }
         
-        GLContext::GLContext(ScriptContext context,ScriptPtr ptr):kk::Object(context,ptr) {
+        void GLContext::init() {
+            Object::init();
+         
+            _width = _height = 0;
+            _speed = 0;
             
             GLContextState state;
-            state.projection = glm::perspective(glm::pi<float>() * 0.25f, 4.0f / 3.0f, 0.1f, 100.f);
+            state.projection = glm::mat4(1.0f);
             state.view = glm::mat4(1.0f);
             state.opacity = 1.0;
             
             _states.push_back(state);
+        }
+        
+        static ScriptResult GLContextStoreFunc(ScriptContext ctx) {
             
+            GLContext * v = NULL;
+            
+            duk_push_this(ctx);
+            
+            v = dynamic_cast<GLContext *>(ScriptGetObject(ctx, -1));
+            
+            duk_pop(ctx);
+            
+            if(v) {
+                v->store();
+            }
+            
+            return 0;
         }
         
-        vec3 GLElement::position(){
-            return _position.get();
+        static ScriptResult GLContextRestoreFunc(ScriptContext ctx) {
+            
+            GLContext * v = NULL;
+            
+            duk_push_this(ctx);
+            
+            v = dynamic_cast<GLContext *>(ScriptGetObject(ctx, -1));
+            
+            duk_pop(ctx);
+            
+            if(v) {
+                v->restore();
+            }
+            
+            return 0;
         }
         
-        void GLElement::setPosition(vec3 v) {
-            _position.set(v);
+        static ScriptResult GLContextPrototypeFunc(ScriptContext ctx) {
+            
+            duk_push_string(ctx, "store");
+            duk_push_c_function(ctx, GLContextStoreFunc, 0);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "restore");
+            duk_push_c_function(ctx, GLContextRestoreFunc, 0);
+            duk_put_prop(ctx, -3);
+            
+            return 0;
         }
         
-        mat4 GLElement::transform() {
-            return _transform.get();
+        kk::Int GLContext::width() {
+            return _width;
         }
         
-        void GLElement::setTransform(mat4 v) {
-            _transform.set(v);
+        void GLContext::setWidth(kk::Int v) {
+            _width = v;
+        }
+        
+        kk::Int GLContext::height() {
+            return _height;
+        }
+        
+        void GLContext::setHeight(kk::Int v) {
+            _height = v;
+        }
+        
+        GLTimeInterval GLContext::speed(){
+            return _speed;
+        }
+        
+        void GLContext::setSpeed(GLTimeInterval v) {
+            _speed = v;
+        }
+        
+        kk::IntProperty GLContext::Property_width(&kk::named::width,(kk::IntProperty::Getter) & GLContext::width,(kk::IntProperty::Setter) & GLContext::setWidth);
+        kk::IntProperty GLContext::Property_height(&kk::named::height,(kk::IntProperty::Getter) & GLContext::height,(kk::IntProperty::Setter) & GLContext::setHeight);
+        kk::Int64Property GLContext::Property_speed(&kk::named::speed,(kk::Int64Property::Getter) & GLContext::speed,(kk::Int64Property::Setter) & GLContext::setSpeed);
+        
+        kk::Property *GLContext::Propertys[] = {
+            &GLContext::Property_width,
+            &GLContext::Property_height,
+            &GLContext::Property_speed,
+            NULL
+        };
+        
+        IMP_CLASS(GLContext, kk::Object, GLContext::Propertys, GLContextPrototypeFunc)
+        
+        void GLElement::init(){
+            Element::init();
+            _position = vec3(0.0f);
+            _transform = mat4(1.0f);
+        }
+        
+        vec3& GLElement::position(){
+            return _position;
+        }
+        
+        void GLElement::setPosition(vec3& v) {
+            _position = v;
+        }
+        
+        mat4& GLElement::transform() {
+            return _transform;
+        }
+        
+        void GLElement::setTransform(mat4& v) {
+            _transform = v;
         }
         
         kk::Float GLElement::opacity() {
-            return _opacity.get();
+            return _opacity;
         }
         
         void GLElement::setOpacity(kk::Float v) {
-            _opacity.set(v);
-        }
-        
-        GLElement::GLElement(ScriptContext context,ScriptPtr ptr)
-            :kk::Element(context,ptr),
-            _position(this,&P::position),
-            _transform(this,&P::transform),
-            _opacity(this,&P::opacity)
-        {
-            _opacity.set(1);
+            _opacity = v;
         }
         
         void GLElement::onDraw(GLContext * ctx) {
@@ -169,9 +592,11 @@ namespace kk {
             
             GLContextState & s = ctx->state() ;
             
-            s.opacity = s.opacity * _opacity.get();
-            s.view = glm::translate(s.view * s.view, _position.get()) ;
+            s.opacity = s.opacity * _opacity;
+            s.view = glm::translate(s.view, _position) ;
 
+            onDraw(ctx);
+            
             Element * p = firstChild();
             
             while(p) {
@@ -187,6 +612,133 @@ namespace kk {
             
             ctx->restore();
         }
+        
+        Vec3Property GLElement::Property_position(&kk::named::position,(Vec3Property::Getter)&GLElement::position,(Vec3Property::Setter)&GLElement::setPosition);
+        Mat4Property GLElement::Property_transform(&kk::named::transform,(Mat4Property::Getter)&GLElement::transform,(Mat4Property::Setter)&GLElement::setTransform);
+        kk::FloatProperty GLElement::Property_opacity(&kk::named::opacity,(FloatProperty::Getter)&GLElement::opacity,(FloatProperty::Setter)&GLElement::setOpacity);
+        kk::Property * GLElement::Propertys[] = {
+            &GLElement::Property_position,
+            &GLElement::Property_transform,
+            &GLElement::Property_opacity,
+            NULL
+        };
+        
+        IMP_CLASS(GLElement, kk::Element, GLElement::Propertys, NULL)
+        
+        CString GLImageElement::name() {
+            return _name.c_str();
+        }
+        
+        void GLImageElement::setName(CString name) {
+            _name = name;
+            _texture = NULL;
+        }
+        
+        vec2& GLImageElement::size() {
+            return _size;
+        }
+        
+        void GLImageElement::setSize(vec2& size) {
+            _size = size;
+        }
+        
+        vec2& GLImageElement::anchor() {
+            return _anchor;
+        }
+        
+        void GLImageElement::setAnchor(vec2& anchor) {
+            _anchor = anchor;
+        }
+        
+        void GLImageElement::onDraw(GLContext * ctx) {
+            if(_texture == NULL) {
+                
+                kk::Element * p = parent();
+                
+                while(p) {
+                    
+                    GLTextureProvider * tp = dynamic_cast<GLTextureProvider *>(p);
+                    
+                    if(tp) {
+                        if((_texture = tp->getTexture(name()))) {
+                            break;
+                        }
+                    }
+                    
+                    p = p->parent();
+                }
+            }
+            
+            if(_texture == NULL) {
+                GLTextureProvider * tp = dynamic_cast<GLTextureProvider *>(document());
+                if(tp) {
+                    _texture = tp->getTexture(name());
+                }
+            }
+            
+            if(_texture == NULL) {
+                
+                Document * doc = document();
+                
+                if(doc) {
+                    GLTextureProvider * tp = dynamic_cast<GLTextureProvider *>(doc->app());
+                    if(tp) {
+                        _texture = tp->getTexture(name());
+                    }
+                }
+            }
+            
+            GLProgram * program = ctx->get("GLSLTexture");
+            
+            if(_texture && program) {
+                
+                GLContextState & state =  ctx->state();
+                
+                kk::Int position = program->attrib("position");
+                kk::Int texCoord = program->attrib("texCoord");
+                kk::Int transfrom = program->uniform("transfrom");
+                kk::Int texture = program->uniform("texture");
+                
+                program->use();
+                
+                _texture->active(GL_TEXTURE0);
+                program->setUniform(texture, kk::Int(0));
+                
+                mat4 v = state.projection * state.view;
+                
+                program->setUniform(transfrom, v );
+                
+                kk::Float top = - _size.y * _anchor.y;
+                kk::Float bottom = _size.y * (1.0 - _anchor.y);
+                kk::Float left = - _size.x * _anchor.x;
+                kk::Float right = _size.x * (1.0 - _anchor.x);
+                
+                vec3 p[6] = {
+                    {left,top,0},{right,top,0},{left,bottom,0},{left,bottom,0},{right,top,0},{right,bottom,0}};
+                
+                program->setAttrib(position, 3, p, sizeof(vec3));
+                
+                vec2 t[6] = {
+                    {0,0},{1,0},{0,1},{0,1},{1,0},{1,1}};
+                
+                program->setAttrib(texCoord, 2, t, sizeof(vec2));
+                
+                glDrawArrays(GL_TRIANGLES, 0, 6);
+                
+            }
+        }
+        
+        kk::StringProperty GLImageElement::Property_name(&kk::named::name,(kk::StringProperty::Getter)&GLImageElement::name,(kk::StringProperty::Setter)&GLImageElement::setName);
+        Vec2Property GLImageElement::Property_size(&kk::named::size,(Vec2Property::Getter)&GLImageElement::size,(Vec2Property::Setter)&GLImageElement::setSize);
+        Vec2Property GLImageElement::Property_anchor(&kk::named::anchor,(Vec2Property::Getter)&GLImageElement::anchor,(Vec2Property::Setter)&GLImageElement::setAnchor);
+        kk::Property * GLImageElement::Propertys[] = {
+            &GLImageElement::Property_name,
+            &GLImageElement::Property_size,
+            &GLImageElement::Property_anchor,
+            NULL
+        };
+        
+        IMP_CLASS(GLImageElement, kk::gl::GLElement, GLImageElement::Propertys, NULL)
         
         GLProgram::GLProgram(kk::CString vshCode,kk::CString fshCode) {
             
@@ -419,7 +971,7 @@ namespace kk {
         
         
         GLTexture::GLTexture(void * data, kk::Uint size, kk::Int width,kk::Int height, GLTextureType type)
-        :_id(0),_width(0),_height(0) {
+        :_id(0),_width(width),_height(height) {
             
             if(type == GLTextureTypeRGBA || type == GLTextureTypeBGRA) {
                 

@@ -18,15 +18,14 @@
 namespace kk {
     
     class Document : public EventEmitter {
+    DEF_CLASS(Document)
     public:
         
         virtual Element * rootElement();
         
         virtual void setRootElement(Element * element);
-  
-        DEF_CLASS(Document)
-        
-        virtual Element * createElement(kk::Class isa);
+
+        virtual Element * createElement(kk::Class * isa);
         
         virtual Element * createElement(CString name);
         
@@ -40,10 +39,12 @@ namespace kk {
         
         virtual void setApp(Application * app);
         
+        static ObjectProperty RootElement;
+        static ObjectProperty App;
+        static Property *Propertys[];
     protected:
-        Document(ScriptContext context,ScriptPtr ptr);
-        StrongProperty _rootElement;
-        WeakProperty _app;
+        Strong<Element*> _rootElement;
+        Weak<Application*> _app;
         virtual void setElementId(Element * e,Int64 id);
     };
     

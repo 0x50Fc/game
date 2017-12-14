@@ -21,10 +21,14 @@
 #endif
 
 #include <vector>
+#include <string>
+#include <map>
 
 namespace kk {
     
     namespace gl {
+        
+        typedef kk::Int64 GLTimeInterval; /** 毫秒 **/
         
         typedef glm::vec2 vec2;
         typedef glm::vec3 vec3;
@@ -32,34 +36,28 @@ namespace kk {
         typedef glm::mat3 mat3;
         typedef glm::mat4 mat4;
         
-        class Vec4Property : public kk::TProperty<vec4> {
+        class Vec4Property : public TProperty<vec4&> {
         public:
-            Vec4Property(Object * object,Property * property);
-            virtual ScriptResult getScript();
-            virtual ScriptResult setScript();
-            virtual String toString() ;
-            virtual void set(vec4 value) ;
-            virtual void set(CString value) ;
+            Vec4Property(Named * name, Getter getter, Setter setter);
+            virtual void def(ScriptContext ctx);
         };
         
-        class Vec3Property : public kk::TProperty<vec3> {
+        class Vec3Property : public TProperty<vec3&> {
         public:
-            Vec3Property(Object * object,Property * property);
-            virtual ScriptResult getScript();
-            virtual ScriptResult setScript();
-            virtual String toString() ;
-            virtual void set(vec3 value) ;
-            virtual void set(CString value) ;
+            Vec3Property(Named * name, Getter getter, Setter setter);
+            virtual void def(ScriptContext ctx);
         };
         
-        class Mat4Property : public kk::TProperty<mat4> {
+        class Vec2Property : public TProperty<vec2&> {
         public:
-            Mat4Property(Object * object,Property * property);
-            virtual ScriptResult getScript();
-            virtual ScriptResult setScript();
-            virtual String toString() ;
-            virtual void set(mat4 value) ;
-            virtual void set(CString value) ;
+            Vec2Property(Named * name, Getter getter, Setter setter);
+            virtual void def(ScriptContext ctx);
+        };
+        
+        class Mat4Property : public TProperty<mat4&> {
+        public:
+            Mat4Property(Named * name, Getter getter, Setter setter);
+            virtual void def(ScriptContext ctx);
         };
         
         struct GLContextState {
@@ -68,15 +66,36 @@ namespace kk {
             kk::Float opacity;
         };
         
+        class GLProgram;
+        
         class GLContext : public kk::Object {
+        DEF_CLASS(GLContext)
         public:
-            DEF_CLASS(GLContext)
+            virtual ~GLContext();
             virtual GLContextState& state();
             virtual void store();
             virtual void restore();
+            virtual void init();
+            virtual void set(kk::CString name,GLProgram * program);
+            virtual GLProgram * get(kk::CString name);
+            virtual kk::Int width();
+            virtual void setWidth(kk::Int v);
+            virtual kk::Int height();
+            virtual void setHeight(kk::Int v);
+            virtual GLTimeInterval speed();
+            virtual void setSpeed(GLTimeInterval v);
+            
+            static kk::IntProperty Property_width;
+            static kk::IntProperty Property_height;
+            static kk::Int64Property Property_speed;
+            static kk::Property *Propertys[];
+            
         protected:
-            GLContext(ScriptContext context,ScriptPtr ptr);
             std::vector<GLContextState> _states;
+            std::map<std::string,GLProgram *> _programs;
+            kk::Int _width;
+            kk::Int _height;
+            GLTimeInterval _speed;
         };
         
         class GLDrawable {
@@ -85,21 +104,54 @@ namespace kk {
         };
         
         class GLElement : public GLDrawable, public kk::Element {
+        DEF_CLASS(GLElement)
         public:
-            DEF_CLASS(GLElement)
-            virtual vec3 position();
-            virtual void setPosition(vec3 v);
-            virtual mat4 transform();
-            virtual void setTransform(mat4 v);
+            virtual vec3& position();
+            virtual void setPosition(vec3& v);
+            virtual mat4& transform();
+            virtual void setTransform(mat4& v);
             virtual kk::Float opacity();
             virtual void setOpacity(kk::Float v);
             virtual void draw(GLContext * ctx);
-            virtual void onDraw(GLContext * ctx);
+            virtual void init();
+            
+            static Vec3Property Property_position;
+            static Mat4Property Property_transform;
+            static kk::FloatProperty Property_opacity;
+            static kk::Property * Propertys[];
+            
         protected:
-            GLElement(ScriptContext context,ScriptPtr ptr);
-            Vec3Property _position;
-            Mat4Property _transform;
-            kk::FloatProperty _opacity;
+            virtual void onDraw(GLContext * ctx);
+            vec3 _position;
+            mat4 _transform;
+            kk::Float _opacity;
+        };
+        
+        class GLTexture;
+        
+        class GLImageElement : public GLElement {
+        DEF_CLASS(GLImageElement)
+        public:
+            virtual CString name();
+            virtual void setName(CString name);
+            
+            virtual vec2& size();
+            virtual void setSize(vec2& size);
+            
+            virtual vec2& anchor();
+            virtual void setAnchor(vec2& anchor);
+            
+            static kk::StringProperty Property_name;
+            static Vec2Property Property_size;
+            static Vec2Property Property_anchor;
+            static kk::Property * Propertys[];
+            
+        protected:
+            virtual void onDraw(GLContext * ctx);
+            GLTexture * _texture;
+            kk::String _name;
+            vec2 _size;
+            vec2 _anchor;
         };
         
         enum GLTextureType {
@@ -117,6 +169,11 @@ namespace kk {
             kk::Int _width;
             kk::Int _height;
             kk::Uint _id;
+        };
+        
+        class GLTextureProvider {
+        public:
+            virtual GLTexture * getTexture(kk::CString name) = 0;
         };
         
         extern GLTexture * GLCreateTexture(kk::Application * app,kk::CString path);

@@ -25,19 +25,43 @@
 
 @synthesize GLContext = _GLContext;
 
+-(void) initGLContext {
+    
+    CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
+    
+    eaglLayer.contentsScale = [[UIScreen mainScreen] scale];
+    eaglLayer.opaque = YES;
+    eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
+    
+    
+    _GLContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    
+    if (!_GLContext || ![EAGLContext setCurrentContext:_GLContext]) {
+        NSLog(@"Failed to initialize OpenGLES 2.0 context");
+        exit(1);
+    }
+
+    glGenFramebuffers(1, &_data.frame);
+    glGenRenderbuffers(1, &_data.render);
+    glGenRenderbuffers(1, &_data.depth);
+    
+    [self setup];
+}
+
 -(instancetype) initWithFrame:(CGRect)frame {
     if((self = [super initWithFrame:frame])) {
         
-        _GLContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-        if(_GLContext == nil) {
-            _GLContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-        }
+        [self initGLContext];
         
-        glGenFramebuffers(1, &_data.frame);
-        glGenRenderbuffers(1, &_data.render);
-        glGenRenderbuffers(1, &_data.depth);
+    }
+    return self;
+}
 
-        [self setup];
+-(instancetype) initWithCoder:(NSCoder *) aDecoder{
+    if((self = [super initWithCoder:aDecoder])) {
+        
+        [self initGLContext];
         
     }
     return self;
@@ -73,27 +97,25 @@
 
 -(void) setup {
  
-    GLsizei width = self.bounds.size.width * self.layer.contentsScale;
-    GLsizei height = self.bounds.size.height * self.layer.contentsScale;;
-    
     [EAGLContext setCurrentContext:_GLContext];
     
     glBindRenderbuffer(GL_RENDERBUFFER, _data.render);
     
-    [_GLContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer*) self];
+    [_GLContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer*) self.layer];
+
     
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_width);
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_height);
     
     glBindRenderbuffer(GL_RENDERBUFFER, _data.depth);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16
-                          , width, height);
+                          , _width, _height);
     
     glBindFramebuffer(GL_FRAMEBUFFER, _data.frame);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _data.render);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _data.render);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _data.depth);
     
-    glViewport(0,0,width,height);
+    glViewport(0,0,_width,_height);
     
     glBindRenderbuffer(GL_RENDERBUFFER, _data.render);;
     
@@ -102,6 +124,9 @@
 -(void) display:(kk::gl::GLDrawable *) drawable context:(kk::gl::GLContext *) context {
     
     [EAGLContext setCurrentContext:_GLContext];
+    
+    context->setWidth(_width);
+    context->setHeight(_height);
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     

@@ -11,10 +11,7 @@
 
 namespace kk {
     
-    
-    Event::Event(ScriptContext context,ScriptPtr ptr):kk::Object(context,ptr) {
-        
-    }
+    IMP_CLASS(Event, Object, NULL, NULL)
     
     class EventCaller {
     public:
@@ -50,7 +47,7 @@ namespace kk {
     }
     
     EventCaller::~EventCaller() {
-        
+
     }
     
     Boolean EventCaller::has(CString name) {
@@ -77,13 +74,10 @@ namespace kk {
             
             ScriptPushObject(ctx, emitter);
             
-            duk_push_string(ctx, "_events");
-            duk_get_prop(ctx, -2);
-            
-            duk_push_pointer(ctx, _ptr);
+            duk_push_sprintf(ctx, "__strong_%lx", (unsigned long) _ptr);
             duk_del_prop(ctx, -2);
             
-            duk_pop_n(ctx, 2);
+            duk_pop(ctx);
             
         }
         
@@ -161,14 +155,11 @@ namespace kk {
         
         ScriptPushObject(ctx, this);
         
-        duk_push_string(ctx, "_events");
-        duk_get_prop(ctx, -2);
-        
-        duk_push_pointer(ctx, fnptr);
+        duk_push_sprintf(ctx, "__strong_%lx",(unsigned long) fnptr);
         duk_push_heapptr(ctx, fnptr);
-        duk_put_prop(ctx, -3);
+        duk_def_prop(ctx, -3, DUK_DEFPROP_HAVE_VALUE | DUK_DEFPROP_HAVE_CONFIGURABLE | DUK_DEFPROP_CONFIGURABLE);
         
-        duk_pop_n(ctx, 2);
+        duk_pop(ctx);
         
         _callers.push_back(new EventCaller(name,fnptr));
         
@@ -209,10 +200,6 @@ namespace kk {
             
             i ++;
         }
-    }
-    
-    EventEmitter::EventEmitter(ScriptContext context,ScriptPtr ptr) : kk::Object(context,ptr) {
-        
     }
     
     static ScriptResult EventEmitterOnFunc(ScriptContext ctx) {
@@ -301,16 +288,7 @@ namespace kk {
         return 0;
     }
     
-    void EventEmitter::init() {
-        Object::init();
-        
-        ScriptContext ctx = context();
-        
-        duk_push_this(ctx);
-        
-        duk_push_string(ctx, "_events");
-        duk_push_object(ctx);
-        duk_put_prop(ctx, -3);
+    static ScriptResult EventEmitterPrototypeFunc(ScriptContext ctx) {
         
         duk_push_string(ctx, "on");
         duk_push_c_function(ctx, EventEmitterOnFunc, 2);
@@ -324,8 +302,13 @@ namespace kk {
         duk_push_c_function(ctx, EventEmitterEmitFunc, 2);
         duk_put_prop(ctx, -3);
         
-        duk_pop(ctx);
-        
+        return 0;
+    }
+    
+    IMP_CLASS(EventEmitter, Object, NULL, EventEmitterPrototypeFunc)
+    
+    void EventEmitter::init() {
+        Object::init();
     }
     
     Event * EventEmitter::defaultEvent(CString name) {

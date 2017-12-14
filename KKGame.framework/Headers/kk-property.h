@@ -19,157 +19,115 @@ namespace kk {
     
     class Object;
     
-    typedef Uint32 PropertyId;
+    typedef Uint32 Id;
     
-    class Property {
+    class Named {
     public:
-        Property(PropertyId pid,CString name);
-        virtual PropertyId pid();
+        Named(Id id,CString name);
+        virtual Id id();
         virtual CString name();
     protected:
         CString _name;
-        PropertyId _pid;
+        Id _id;
     };
     
-    class VProperty {
+    namespace named {
+        extern kk::Named id;
+        extern kk::Named name;
+        extern kk::Named parent;
+        extern kk::Named firstChild;
+        extern kk::Named lastChild;
+        extern kk::Named nextSibling;
+        extern kk::Named prevSibling;
+        extern kk::Named document;
+        extern kk::Named rootElement;
+        extern kk::Named element;
+        extern kk::Named cancelBubble;
+        extern kk::Named asElement;
+        extern kk::Named actionType;
+        extern kk::Named size;
+        extern kk::Named position;
+        extern kk::Named transform;
+        extern kk::Named opacity;
+        extern kk::Named current;
+        extern kk::Named speed;
+        extern kk::Named count;
+        extern kk::Named paused;
+        extern kk::Named duration;
+        extern kk::Named app;
+        extern kk::Named path;
+        extern kk::Named anchor;
+        
+        kk::Named * get(kk::CString name);
+        kk::Named ** list();
+    }
+    
+    
+    class Property {
     public:
-        VProperty(Object * object,Property * property);
-        virtual Property * property();
-        virtual Object * object();
-        virtual void change();
-        virtual ScriptResult getScript() = 0;
-        virtual ScriptResult setScript() = 0;
-        virtual String toString() ;
-        virtual void set(CString value) ;
+        Property(Named * name);
+        virtual Named * name();
+        virtual void change(Object * object);
+        virtual void def(ScriptContext ctx) = 0;
     protected:
-        Property * _property;
-        Object * _object;
+        Named * _name;
     };
     
     template<typename T>
-    class TProperty : public VProperty {
+    class TProperty : public Property {
     public:
-        TProperty(Object * object,Property * property): VProperty(object,property) {};
-        virtual T get() { return _value;};
+        typedef T (Object::*Getter)();
+        typedef void (Object::*Setter)(T value);
+        TProperty(Named * name, Getter getter, Setter setter): Property(name),_getter(getter),_setter(setter) {};
+        virtual T get(Object * object) { return (object->*_getter)(); };
+        virtual void set(Object * object,T value) { if(_setter) { (object->*_setter)(value); change(object); } };
     protected:
-        T _value;
+        Getter _getter;
+        Setter _setter;
     };
     
     class IntProperty : public TProperty<Int> {
     public:
-        IntProperty(Object * object,Property * property);
-        virtual ScriptResult getScript();
-        virtual ScriptResult setScript();
-        virtual String toString();
-        virtual void set(Int value) { _value = value; change(); };
-        virtual void set(CString value);
+        IntProperty(Named * name, Getter getter, Setter setter);
+        virtual void def(ScriptContext ctx);
     };
     
     class Int64Property : public TProperty<Int64> {
     public:
-        Int64Property(Object * object,Property * property);
-        virtual ScriptResult getScript();
-        virtual ScriptResult setScript();
-        virtual String toString();
-        virtual void set(Int64 value) { _value = value; change(); };
-        virtual void set(CString value);
+        Int64Property(Named * name, Getter getter, Setter setter);
+        virtual void def(ScriptContext ctx);
     };
     
     class BooleanProperty : public TProperty<Boolean> {
     public:
-        BooleanProperty(Object * object,Property * property);
-        virtual ScriptResult getScript();
-        virtual ScriptResult setScript();
-        virtual String toString();
-        virtual void set(Boolean value) { _value = value; change(); };
-        virtual void set(CString value);
-    };
-    
-    class DoubleProperty : public TProperty<Double> {
-    public:
-        DoubleProperty(Object * object,Property * property);
-        virtual ScriptResult getScript();
-        virtual ScriptResult setScript();
-        virtual String toString();
-        virtual void set(Double value) { _value = value; change(); };
-        virtual void set(CString value);
+        BooleanProperty(Named * name, Getter getter, Setter setter);
+        virtual void def(ScriptContext ctx);
     };
     
     class FloatProperty : public TProperty<Float> {
     public:
-        FloatProperty(Object * object,Property * property);
-        virtual ScriptResult getScript();
-        virtual ScriptResult setScript();
-        virtual String toString();
-        virtual void set(Float value) { _value = value; change(); };
-        virtual void set(CString value);
+        FloatProperty(Named * name, Getter getter, Setter setter);
+        virtual void def(ScriptContext ctx);
     };
     
-    class StringProperty : public VProperty {
+    class DoubleProperty : public TProperty<Double> {
     public:
-        StringProperty(Object * object,Property * property);
-        virtual ScriptResult getScript();
-        virtual ScriptResult setScript();
-        virtual String& get() { return _value;};
-        virtual void set(String value){ _value = value; change(); };
-        virtual void set(CString value){ _value = value; change(); };
-        virtual void set(String &value){ _value = value; change(); };
-        virtual String toString();
-    protected:
-        String _value;
+        DoubleProperty(Named * name, Getter getter, Setter setter);
+        virtual void def(ScriptContext ctx);
     };
     
-    class StrongProperty : public TProperty<Object*> {
+    class StringProperty : public TProperty<CString> {
     public:
-        StrongProperty(Object * object,Property * property);
-        virtual ~StrongProperty();
-        virtual ScriptResult getScript();
-        virtual ScriptResult setScript();
-        virtual void set(Object * value);
-        virtual String toString();
-        virtual void set(CString value);
+        StringProperty(Named * name, Getter getter, Setter setter);
+        virtual void def(ScriptContext ctx);
     };
     
-    class WeakProperty : public TProperty<Object*> {
+    class ObjectProperty : public TProperty<Object*> {
     public:
-        WeakProperty(Object * object,Property * property);
-        virtual ~WeakProperty();
-        virtual ScriptResult getScript();
-        virtual ScriptResult setScript();
-        virtual void set(Object * value);
-        virtual String toString();
-        virtual void set(CString value);
+        ObjectProperty(Named * name, Getter getter, Setter setter);
+        virtual void def(ScriptContext ctx);
     };
     
-    
-    namespace P {
-        extern kk::Property id;
-        extern kk::Property name;
-        extern kk::Property parent;
-        extern kk::Property firstChild;
-        extern kk::Property lastChild;
-        extern kk::Property nextSibling;
-        extern kk::Property prevSibling;
-        extern kk::Property document;
-        extern kk::Property rootElement;
-        extern kk::Property element;
-        extern kk::Property cancelBubble;
-        extern kk::Property asElement;
-        extern kk::Property actionType;
-        extern kk::Property size;
-        extern kk::Property position;
-        extern kk::Property transform;
-        extern kk::Property opacity;
-        extern kk::Property current;
-        extern kk::Property speed;
-        extern kk::Property count;
-        extern kk::Property paused;
-        extern kk::Property duration;
-        extern kk::Property app;
-        
-        kk::Property * get(kk::CString name);
-        kk::Property ** list();
-    }
     
 }
 

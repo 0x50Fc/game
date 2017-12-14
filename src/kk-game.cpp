@@ -21,34 +21,37 @@ namespace kk {
         }
         
         GMTimeInterval GMContext::current() {
-            return _current.get();
+            return _current;
         }
         
         GMTimeInterval GMContext::speed() {
-            return _speed.get();
+            return _speed;
         }
         
         void GMContext::setSpeed(GMTimeInterval v) {
-            _speed.set(v);
+            _speed = v;
         }
         
         void GMContext::tick() {
-            _current.set(_current.get() + _speed.get());
-            _count.set(_count.get() + 1);
+            _current = _current + _speed;
+            _count = _count + 1;
         }
         
         kk::Int64 GMContext::count() {
-            return _count.get();
+            return _count;
         }
         
-        GMContext::GMContext(ScriptContext context,ScriptPtr ptr)
-            :kk::Object(context,ptr)
-                ,_current(this,&kk::P::current)
-                ,_speed(this,&kk::P::speed)
-                ,_count(this,&kk::P::count)
-        {
-            _speed.set(1000 / 60);
-        }
+        kk::Int64Property GMContext::Property_current(&kk::named::current,(kk::Int64Property::Getter) &GMContext::current,NULL);
+        kk::Int64Property GMContext::Property_speed(&kk::named::speed,(kk::Int64Property::Getter) &GMContext::speed,(kk::Int64Property::Setter) &GMContext::setSpeed);
+        kk::Int64Property GMContext::Property_count(&kk::named::count,(kk::Int64Property::Getter) &GMContext::count,NULL);
+        kk::Property *GMContext::Propertys[] = {
+            &GMContext::Property_current,
+            &GMContext::Property_speed,
+            &GMContext::Property_count,
+            NULL
+        };
+        
+        IMP_CLASS(GMContext, kk::Object, GMContext::Propertys, NULL)
         
         void GMElement::onTick(GMContext * ctx) {
             
@@ -56,8 +59,8 @@ namespace kk {
         
         void GMElement::tick(GMContext * ctx) {
             
-            if(! _paused.get()) {
-                _current.set(_current.get() + ctx->speed());
+            if(! _paused) {
+                _current = _current + ctx->speed();
             }
             
             onTick(ctx);
@@ -76,36 +79,78 @@ namespace kk {
             }
         }
         
-        GMElement::GMElement(ScriptContext context,ScriptPtr ptr)
-            :kk::Element(context,ptr)
-                ,_current(this,&kk::P::current)
-                ,_paused(this,&kk::P::paused)
-        {
-            
-        }
         
         kk::Boolean GMElement::isPaused() {
-            return _paused.get();
+            return _paused;
         }
         
         void GMElement::pause() {
-            _paused.set(true);
+            _paused = true;
         }
         
         void GMElement::resume() {
-            _paused.set(false);
-            _current.set((kk::Int64) 0);
+            _paused = false;
         }
         
         GMTimeInterval GMElement::current() {
-            return _current.get();
+            return _current;
         }
         
-        SceneElement::SceneElement(ScriptContext context,ScriptPtr ptr):GMElement(context,ptr) {
+        kk::BooleanProperty GMElement::Property_paused(&kk::named::paused,(kk::BooleanProperty::Getter) &GMElement::isPaused,NULL);
+        kk::Int64Property GMElement::Property_current(&kk::named::current,(kk::Int64Property::Getter) &GMElement::current,NULL);
+        
+        kk::Property * GMElement::Propertys[] = {
+            &GMElement::Property_paused,
+            &GMElement::Property_current,
+            NULL
+        };
+        
+        static ScriptResult GMElementPauseFunc(ScriptContext ctx) {
             
+            duk_push_this(ctx);
+            
+            GMElement * v = dynamic_cast<GMElement *>(ScriptGetObject(ctx, -1));
+            
+            duk_pop(ctx);
+            
+            if(v) {
+                v->pause();
+            }
+            
+            return 0;
         }
         
-        SceneElement::~SceneElement() {
+        static ScriptResult GMElementResumeFunc(ScriptContext ctx) {
+            
+            duk_push_this(ctx);
+            
+            GMElement * v = dynamic_cast<GMElement *>(ScriptGetObject(ctx, -1));
+            
+            duk_pop(ctx);
+            
+            if(v) {
+                v->resume();
+            }
+            
+            return 0;
+        }
+        
+        static ScriptResult GMElementPrototypeFunc(ScriptContext ctx) {
+            
+            duk_push_string(ctx, "pause");
+            duk_push_c_function(ctx, GMElementPauseFunc, 0);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "resume");
+            duk_push_c_function(ctx, GMElementResumeFunc, 0);
+            duk_put_prop(ctx, -3);
+            
+            return 0;
+        }
+        
+        IMP_CLASS(GMElement, kk::Element, GMElement::Propertys, GMElementPrototypeFunc)
+        
+        GMSceneElement::~GMSceneElement() {
             
             {
                 std::map<std::string,kk::gl::GLTexture*>::iterator i = _textures.begin();
@@ -117,7 +162,7 @@ namespace kk {
             
         }
         
-        void SceneElement::draw(kk::gl::GLContext * ctx) {
+        void GMSceneElement::draw(kk::gl::GLContext * ctx) {
             
             Element * p = firstChild();
             
@@ -134,16 +179,16 @@ namespace kk {
             
         }
         
-        void SceneElement::emit(CString name,Event * event) {
+        void GMSceneElement::emit(CString name,Event * event) {
             GMElement::emit(name, event);
             
             ElementActionEvent * e = dynamic_cast<ElementActionEvent *>(event);
             
             if(e != NULL
-               && (e->actionType.get() == ElementActionTypeAdd && e->element.get() == this)) {
+               && (e->actionType() == ElementActionTypeAdd && e->element() == this)) {
                 
                 {
-                    TextureElement * v = dynamic_cast<TextureElement *>(e->asElement.get());
+                    GMTextureElement * v = dynamic_cast<GMTextureElement *>(e->asElement());
                     if(v){
                         kk::Document* doc = document();
                         if(doc) {
@@ -175,39 +220,42 @@ namespace kk {
             }
         }
         
-        kk::CString TextureElement::path() {
-            return _path.get().c_str();
+        kk::gl::GLTexture * GMSceneElement::getTexture(kk::CString name) {
+            std::map<std::string,kk::gl::GLTexture*>::iterator i = _textures.find(name);
+            if(i != _textures.end()) {
+                return i->second;
+            }
+            return NULL;
         }
         
-        kk::CString TextureElement::name() {
-            return _name.get().c_str();
+        IMP_CLASS(GMSceneElement, GMElement, NULL, NULL)
+        
+        kk::CString GMTextureElement::path() {
+            return _path.c_str();
         }
         
-        void TextureElement::setPath(kk::CString path) {
-            _path.set(path);
+        kk::CString GMTextureElement::name() {
+            return _name.c_str();
         }
         
-        void TextureElement::setName(kk::CString name) {
-            _name.set(name);
+        void GMTextureElement::setPath(kk::CString path) {
+            _path = path;
         }
         
-        TextureElement::TextureElement(ScriptContext context,ScriptPtr ptr)
-        :kk::Element(context,ptr)
-        , _path(this,&kk::P::path)
-        , _name(this,&kk::P::name){
-            
+        void GMTextureElement::setName(kk::CString name) {
+            _name = name;
         }
         
-        void openlibs(ScriptContext context) {
-            
-            ScriptOpenClass(context, "Document", Document::Class);
-            ScriptOpenClass(context, "Element", Element::Class);
-            ScriptOpenClass(context, "ElementEvent", ElementEvent::Class);
-            ScriptOpenClass(context, "ElementActionEvent", ElementActionEvent::Class);
-            
-            ScriptOpenClass(context, "GLElement", kk::gl::GLElement::Class);
-            
-        }
+        kk::StringProperty GMTextureElement::Property_path(&kk::named::path,(kk::StringProperty::Getter) &GMTextureElement::path,(kk::StringProperty::Setter) &GMTextureElement::setPath);
+        kk::StringProperty GMTextureElement::Property_name(&kk::named::name,(kk::StringProperty::Getter) &GMTextureElement::name,(kk::StringProperty::Setter) &GMTextureElement::setName);
+        kk::Property * GMTextureElement::Propertys[] = {
+            &GMTextureElement::Property_path,
+            &GMTextureElement::Property_name,
+            NULL
+        };
+        
+        IMP_CLASS(GMTextureElement, kk::Element, GMTextureElement::Propertys, NULL)
+        
         
     }
     

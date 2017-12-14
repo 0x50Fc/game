@@ -19,8 +19,8 @@ namespace kk {
     class Document;
     
     class Element : public EventEmitter {
+    DEF_CLASS(Element)
     public:
-        
         virtual Document * document();
         virtual Element * parent();
         virtual Element * firstChild();
@@ -38,7 +38,7 @@ namespace kk {
         virtual Int64 id();
         virtual void setId(Int64 v);
         
-        virtual void onChangeProperty(VProperty * property);
+        virtual void change(Property * property);
         
         //(Document * document ,int id,CString name)
         virtual void init();
@@ -46,33 +46,52 @@ namespace kk {
         virtual Event * defaultEvent(CString name);
         virtual void emit(CString name,Event * event);
         
-        DEF_CLASS(Element)
+        static Int64Property Property_id;
+        static ObjectProperty Property_parent;
+        static ObjectProperty Property_firstChild;
+        static ObjectProperty Property_lastChild;
+        static ObjectProperty Property_nextSibling;
+        static ObjectProperty Property_prevSibling;
+        static ObjectProperty Property_document;
+        
+        static Property *Propertys[];
         
     protected:
-        Element(ScriptContext context,ScriptPtr ptr);
-        Int64Property _id;
-        WeakProperty _parent;
-        StrongProperty _firstChild;
-        StrongProperty _lastChild;
-        StrongProperty _nextSibling;
-        WeakProperty _prevSibling;
-        WeakProperty _document;
+        Int64 _id;
+        Weak<Element*> _parent;
+        Strong<Element*> _firstChild;
+        Strong<Element*> _lastChild;
+        Strong<Element*> _nextSibling;
+        Weak<Element*> _prevSibling;
+        Weak<Object*> _document;
+        virtual void setParent(Element * v);
+        virtual void setFirstChild(Element * v);
+        virtual void setLastChild(Element * v);
+        virtual void setNextSibling(Element * v);
+        virtual void setPrevSibling(Element * v);
+        virtual void setDocument(Element * v);
     };
 
     class ElementEvent : public Event {
+    DEF_CLASS(ElementEvent)
     public:
-        DEF_CLASS(ElementEvent)
-        StrongProperty element;
-        BooleanProperty cancelBubble;
+        virtual Element * element();
+        virtual void setElement(Element * element);
+        virtual Boolean isCancelBubble();
+        virtual void setCancelBubble(Boolean value);
+        
+        static ObjectProperty Property_element;
+        static BooleanProperty Property_cancelBubble;
+        static Property *Propertys[];
+        
     protected:
-        ElementEvent(ScriptContext context,ScriptPtr ptr);
+        Strong<Element*> _element;
+        Boolean _cancelBubble;
     };
     
     enum {
         ElementActionTypeProperty
-        ,ElementActionTypeAppend
-        ,ElementActionTypeAfter
-        ,ElementActionTypeBefore
+        ,ElementActionTypeAdd
         ,ElementActionTypeRemove
         ,ElementActionTypeNew
     };
@@ -80,14 +99,24 @@ namespace kk {
     typedef Int ElementActionType;
     
     class ElementActionEvent : public ElementEvent {
+    DEF_CLASS(ElementActionEvent)
     public:
-        DEF_CLASS(ElementActionEvent)
-        StrongProperty asElement;
-        IntProperty actionType;
-        StringProperty name;
-        VProperty * property;
+        virtual Element * asElement();
+        virtual void setAsElement(Element * element);
+        virtual Int actionType();
+        virtual void setActionType(Int value);
+        virtual Property * property();
+        virtual void setProperty(Property * value);
+        virtual CString name();
+        
+        static ObjectProperty Property_asElement;
+        static IntProperty Property_actionType;
+        static StringProperty Property_name;
+        static Property *Propertys[];
     protected:
-        ElementActionEvent(ScriptContext context,ScriptPtr ptr);
+        Strong<Element*> _asElement;
+        Int _actionType;
+        Property * _property;
     };
     
 }
