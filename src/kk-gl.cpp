@@ -459,6 +459,7 @@ namespace kk {
          
             _width = _height = 0;
             _speed = 0;
+            _scale = 1.0f;
             
             GLContextState state;
             state.projection = glm::mat4(1.0f);
@@ -539,14 +540,73 @@ namespace kk {
             _speed = v;
         }
         
-        kk::IntProperty GLContext::Property_width(&kk::named::width,(kk::IntProperty::Getter) & GLContext::width,(kk::IntProperty::Setter) & GLContext::setWidth);
-        kk::IntProperty GLContext::Property_height(&kk::named::height,(kk::IntProperty::Getter) & GLContext::height,(kk::IntProperty::Setter) & GLContext::setHeight);
-        kk::Int64Property GLContext::Property_speed(&kk::named::speed,(kk::Int64Property::Getter) & GLContext::speed,(kk::Int64Property::Setter) & GLContext::setSpeed);
+        kk::Float GLContext::scale() {
+            return _scale;
+        }
+        
+        void GLContext::setScale(kk::Float v) {
+            _scale = v;
+        }
+        
+        void GLContext::drawTexture(GLTexture * texture,vec4 dest,vec4 src) {
+            
+            GLProgram * program = this->get("GLSLTexture");
+            
+            if(texture && program) {
+                
+                GLContextState & state = this->state();
+                
+                kk::Int position = program->attrib("position");
+                kk::Int texCoord = program->attrib("texCoord");
+                kk::Int transfrom = program->uniform("transfrom");
+                kk::Int textureId = program->uniform("texture");
+                
+                program->use();
+                
+                texture->active(GL_TEXTURE0);
+                program->setUniform(textureId, kk::Int(0));
+                
+                mat4 v = state.projection * state.view;
+                
+                program->setUniform(transfrom, v );
+                
+                kk::Float top = dest.y;
+                kk::Float bottom = dest.y + dest.w;
+                kk::Float left = dest.x;
+                kk::Float right = dest.x + dest.z;
+                
+                vec3 p[6] = {
+                    {left,top,0},{right,top,0},{left,bottom,0},{left,bottom,0},{right,top,0},{right,bottom,0}};
+                
+                program->setAttrib(position, 3, p, sizeof(vec3));
+                
+                top = src.y / texture->height();
+                bottom = top + src.w / texture->height();
+                left = src.x / texture->width();
+                right = left + src.z / texture->width();
+                
+                vec2 t[6] = {
+                    {left,top},{right,top},{left,bottom},{left,bottom},{right,top},{right,bottom}};
+                
+                program->setAttrib(texCoord, 2, t, sizeof(vec2));
+                
+                glDrawArrays(GL_TRIANGLES, 0, 6);
+                
+            }
+            
+        }
+    
+        
+        kk::IntProperty GLContext::Property_width(&kk::named::width,(kk::IntProperty::Getter) & GLContext::width,NULL);
+        kk::IntProperty GLContext::Property_height(&kk::named::height,(kk::IntProperty::Getter) & GLContext::height,NULL);
+        kk::Int64Property GLContext::Property_speed(&kk::named::speed,(kk::Int64Property::Getter) & GLContext::speed,NULL);
+        kk::FloatProperty GLContext::Property_scale(&kk::named::scale,(kk::FloatProperty::Getter) & GLContext::scale,NULL);
         
         kk::Property *GLContext::Propertys[] = {
             &GLContext::Property_width,
             &GLContext::Property_height,
             &GLContext::Property_speed,
+            &GLContext::Property_scale,
             NULL
         };
         
@@ -556,6 +616,8 @@ namespace kk {
             Element::init();
             _position = vec3(0.0f);
             _transform = mat4(1.0f);
+            _scale = vec3(1.0f,1.0f,1.0f);
+            _opacity = 1.0;
         }
         
         vec3& GLElement::position(){
@@ -582,6 +644,14 @@ namespace kk {
             _opacity = v;
         }
         
+        vec3& GLElement::scale() {
+            return _scale;
+        }
+        
+        void GLElement::setScale(vec3& v) {
+            _scale = v;
+        }
+        
         void GLElement::onDraw(GLContext * ctx) {
         
         }
@@ -593,7 +663,7 @@ namespace kk {
             GLContextState & s = ctx->state() ;
             
             s.opacity = s.opacity * _opacity;
-            s.view = glm::translate(s.view, _position) ;
+            s.view = glm::scale(glm::translate(s.view, _position),_scale);
 
             onDraw(ctx);
             
@@ -613,17 +683,68 @@ namespace kk {
             ctx->restore();
         }
         
+        GLTexture * GLElement::getTexture(kk::CString name) {
+            
+            GLTexture * v = NULL;
+            kk::Element * e = this;
+            
+            while(e) {
+                
+                GLTextureProvider * p = dynamic_cast<GLTextureProvider *>(e);
+                
+                if(p) {
+                    v = p->getTexture(name);
+                    if(v != NULL) {
+                        break;
+                    }
+                }
+                e = e->parent();
+            }
+            
+            if(v == NULL) {
+                
+                GLTextureProvider * p = dynamic_cast<GLTextureProvider *>(document());
+                
+                if(p) {
+                    v = p->getTexture(name);
+                }
+            }
+            
+            if(v == NULL) {
+                
+                Document * doc = document();
+                
+                if(doc) {
+                    GLTextureProvider * tp = dynamic_cast<GLTextureProvider *>(doc->app());
+                    if(tp) {
+                        v = tp->getTexture(name);
+                    }
+                }
+            }
+            
+            return v;
+        }
+        
         Vec3Property GLElement::Property_position(&kk::named::position,(Vec3Property::Getter)&GLElement::position,(Vec3Property::Setter)&GLElement::setPosition);
+        Vec3Property GLElement::Property_scale(&kk::named::scale,(Vec3Property::Getter)&GLElement::scale,(Vec3Property::Setter)&GLElement::setScale);
         Mat4Property GLElement::Property_transform(&kk::named::transform,(Mat4Property::Getter)&GLElement::transform,(Mat4Property::Setter)&GLElement::setTransform);
         kk::FloatProperty GLElement::Property_opacity(&kk::named::opacity,(FloatProperty::Getter)&GLElement::opacity,(FloatProperty::Setter)&GLElement::setOpacity);
         kk::Property * GLElement::Propertys[] = {
             &GLElement::Property_position,
+            &GLElement::Property_scale,
             &GLElement::Property_transform,
             &GLElement::Property_opacity,
             NULL
         };
         
         IMP_CLASS(GLElement, kk::Element, GLElement::Propertys, NULL)
+        
+        void GLImageElement::init() {
+            GLElement::init();
+            _size = vec2(0);
+            _anchor = vec2(0.5,0.5);
+            _texture = NULL;
+        }
         
         CString GLImageElement::name() {
             return _name.c_str();
@@ -651,81 +772,29 @@ namespace kk {
         }
         
         void GLImageElement::onDraw(GLContext * ctx) {
-            if(_texture == NULL) {
-                
-                kk::Element * p = parent();
-                
-                while(p) {
-                    
-                    GLTextureProvider * tp = dynamic_cast<GLTextureProvider *>(p);
-                    
-                    if(tp) {
-                        if((_texture = tp->getTexture(name()))) {
-                            break;
-                        }
-                    }
-                    
-                    p = p->parent();
-                }
-            }
             
             if(_texture == NULL) {
-                GLTextureProvider * tp = dynamic_cast<GLTextureProvider *>(document());
-                if(tp) {
-                    _texture = tp->getTexture(name());
-                }
+                _texture = getTexture(name());
             }
             
-            if(_texture == NULL) {
+            if(_texture) {
                 
-                Document * doc = document();
-                
-                if(doc) {
-                    GLTextureProvider * tp = dynamic_cast<GLTextureProvider *>(doc->app());
-                    if(tp) {
-                        _texture = tp->getTexture(name());
-                    }
+                if(_size.x == 0) {
+                    _size.x = _texture->width();
                 }
-            }
-            
-            GLProgram * program = ctx->get("GLSLTexture");
-            
-            if(_texture && program) {
                 
-                GLContextState & state =  ctx->state();
-                
-                kk::Int position = program->attrib("position");
-                kk::Int texCoord = program->attrib("texCoord");
-                kk::Int transfrom = program->uniform("transfrom");
-                kk::Int texture = program->uniform("texture");
-                
-                program->use();
-                
-                _texture->active(GL_TEXTURE0);
-                program->setUniform(texture, kk::Int(0));
-                
-                mat4 v = state.projection * state.view;
-                
-                program->setUniform(transfrom, v );
+                if(_size.y == 0) {
+                    _size.y = _texture->height();
+                }
                 
                 kk::Float top = - _size.y * _anchor.y;
                 kk::Float bottom = _size.y * (1.0 - _anchor.y);
                 kk::Float left = - _size.x * _anchor.x;
                 kk::Float right = _size.x * (1.0 - _anchor.x);
                 
-                vec3 p[6] = {
-                    {left,top,0},{right,top,0},{left,bottom,0},{left,bottom,0},{right,top,0},{right,bottom,0}};
-                
-                program->setAttrib(position, 3, p, sizeof(vec3));
-                
-                vec2 t[6] = {
-                    {0,0},{1,0},{0,1},{0,1},{1,0},{1,1}};
-                
-                program->setAttrib(texCoord, 2, t, sizeof(vec2));
-                
-                glDrawArrays(GL_TRIANGLES, 0, 6);
-                
+                ctx->drawTexture(_texture, vec4(left,top,left +right,top + bottom), vec4(0,0,_texture->width(),_texture->height()));
             }
+            
         }
         
         kk::StringProperty GLImageElement::Property_name(&kk::named::name,(kk::StringProperty::Getter)&GLImageElement::name,(kk::StringProperty::Setter)&GLImageElement::setName);
@@ -739,6 +808,120 @@ namespace kk {
         };
         
         IMP_CLASS(GLImageElement, kk::gl::GLElement, GLImageElement::Propertys, NULL)
+        
+        void GLTextElement::init() {
+            GLElement::init();
+            _size = vec2(0);
+            _anchor = vec2(0.5,0.5);
+            _maxWidth = FLOAT_MAX;
+            _fontSize = 14;
+            _color = vec4(0,0,0,1);
+            _texture = NULL;
+        }
+        
+        GLTextElement::~GLTextElement() {
+            if(_texture) {
+                delete _texture;
+            }
+        }
+        
+        CString GLTextElement::text() {
+            return _text.c_str();
+        }
+        
+        void GLTextElement::setText(CString v) {
+            _text = v;
+            if(_texture) {
+                delete _texture;
+                _texture = NULL;
+            }
+        }
+        
+        kk::Float GLTextElement::maxWidth() {
+            return _maxWidth;
+        }
+        
+        void GLTextElement::setMaxWidth(kk::Float size) {
+            _maxWidth = size;
+        }
+        
+        vec2& GLTextElement::size() {
+            return _size;
+        }
+        
+        kk::CString GLTextElement::fontFamily() {
+            return _fontFamily.c_str();
+        }
+        
+        void GLTextElement::setFontFamily(kk::CString v) {
+            _fontFamily = v;
+        }
+        
+        kk::Float GLTextElement::fontSize() {
+            return _fontSize;
+        }
+        
+        void GLTextElement::setFontSize(kk::Float v) {
+            _fontSize = v;
+        }
+        
+        vec4& GLTextElement::color() {
+            return _color;
+        }
+        
+        void GLTextElement::setColor(vec4& v) {
+            _color = v;
+        }
+        
+        vec2& GLTextElement::anchor() {
+            return _anchor;
+        }
+        
+        void GLTextElement::setAnchor(vec2& anchor) {
+            _anchor = anchor;
+        }
+        
+        void GLTextElement::onDraw(GLContext * ctx) {
+            
+            if(_texture == NULL){
+                _texture = GLCreateStringTexture(_text.c_str(), _fontFamily.c_str(), _fontSize * ctx->scale(), _color, _maxWidth);
+                if(_texture) {
+                    _size.x = _texture->width();
+                    _size.y = _texture->height();
+                }
+            }
+            
+            if(_texture) {
+                
+                kk::Float top = - _size.y * _anchor.y;
+                kk::Float bottom = _size.y * (1.0 - _anchor.y);
+                kk::Float left = - _size.x * _anchor.x;
+                kk::Float right = _size.x * (1.0 - _anchor.x);
+                
+                ctx->drawTexture(_texture, vec4(left,top,left +right,top + bottom), vec4(0,0,_texture->width(),_texture->height()));
+            }
+            
+        }
+        
+        kk::StringProperty GLTextElement::Property_text(&kk::named::text,(kk::StringProperty::Getter)&GLTextElement::text,(kk::StringProperty::Setter)&GLTextElement::setText);
+        kk::FloatProperty GLTextElement::Property_maxWidth(&kk::named::maxWidth,(kk::FloatProperty::Getter)&GLTextElement::maxWidth,(kk::FloatProperty::Setter)&GLTextElement::setMaxWidth);
+        Vec2Property GLTextElement::Property_size(&kk::named::size,(Vec2Property::Getter)&GLTextElement::size,NULL);
+        Vec2Property GLTextElement::Property_anchor(&kk::named::anchor,(Vec2Property::Getter)&GLTextElement::anchor,(Vec2Property::Setter)&GLTextElement::setAnchor);
+        kk::StringProperty GLTextElement::Property_fontFamily(&kk::named::fontFamily,(kk::StringProperty::Getter)&GLTextElement::fontFamily,(kk::StringProperty::Setter)&GLTextElement::setFontFamily);
+        kk::FloatProperty GLTextElement::Property_fontSize(&kk::named::fontSize,(kk::FloatProperty::Getter)&GLTextElement::fontSize,(kk::FloatProperty::Setter)&GLTextElement::setFontSize);
+        Vec4Property GLTextElement::Property_color(&kk::named::color,(Vec4Property::Getter)&GLTextElement::color,(Vec4Property::Setter)&GLTextElement::setColor);
+        kk::Property * GLTextElement::Propertys[] = {
+            &GLTextElement::Property_text,
+            &GLTextElement::Property_maxWidth,
+            &GLTextElement::Property_size,
+            &GLTextElement::Property_anchor,
+            &GLTextElement::Property_fontFamily,
+            &GLTextElement::Property_fontSize,
+            &GLTextElement::Property_color,
+            NULL
+        };
+        
+        IMP_CLASS(GLTextElement, kk::gl::GLElement, GLTextElement::Propertys, NULL);
         
         GLProgram::GLProgram(kk::CString vshCode,kk::CString fshCode) {
             

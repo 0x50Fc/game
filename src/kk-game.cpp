@@ -9,6 +9,12 @@
 #include "kk-config.h"
 #include "kk-game.h"
 
+#ifdef __APPLE__
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/constants.hpp>
+
+#endif
 
 namespace kk {
     
@@ -164,6 +170,18 @@ namespace kk {
         
         void GMSceneElement::draw(kk::gl::GLContext * ctx) {
             
+            ctx->store();
+            
+            kk::gl::GLContextState& state =  ctx->state();
+        
+            kk::gl::vec3 v(0);
+            
+            v.x = 1.0f / ctx->width();
+            v.y = - 1.0f / ctx->height();
+            v.z = - 0.000001;
+            
+            state.projection = glm::scale(glm::translate(kk::gl::mat4(1), kk::gl::vec3(-1,1,0)), v);
+            
             Element * p = firstChild();
             
             while(p) {
@@ -176,6 +194,8 @@ namespace kk {
                 
                 p  = p->nextSibling();
             }
+            
+            ctx->restore();
             
         }
         

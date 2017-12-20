@@ -28,6 +28,10 @@ namespace kk {
     typedef char Int8;
     typedef unsigned char Uint8;
     
+#ifndef FLOAT_MAX
+#define FLOAT_MAX 0x1.fffffep+127f
+#endif
+    
     Boolean CStringHasPrefix(CString string,CString prefix);
     Boolean CStringHasSuffix(CString string,CString suffix);
     Boolean CStringEqual(CString string,CString value);

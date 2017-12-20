@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A4780E31FEA77B100D4569B /* Pods_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D5CBE354CB67ABE14126C /* Pods_demo.framework */; };
+		1A4B10FF1FE76C00004B85F9 /* tmw_desert_spacing.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4B10FC1FE76BFF004B85F9 /* tmw_desert_spacing.png */; };
+		1A4B11001FE76C00004B85F9 /* desert.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 1A4B10FE1FE76BFF004B85F9 /* desert.tmx */; };
+		1A4B11021FE76C48004B85F9 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A4B11011FE76C48004B85F9 /* libxml2.tbd */; };
+		1A4B11041FE76F28004B85F9 /* desert.tsx in Resources */ = {isa = PBXBuildFile; fileRef = 1A4B11031FE76F28004B85F9 /* desert.tsx */; };
+		1A4B11061FE77091004B85F9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A4B11051FE77090004B85F9 /* libz.tbd */; };
+		1A4B11081FE7A2A3004B85F9 /* pay.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4B11071FE7A2A3004B85F9 /* pay.png */; };
 		ACF5C2EF1FDFA5470018523C /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACF5C2EE1FDFA5470018523C /* AppDelegate.mm */; };
 		ACF5C2F51FDFA5470018523C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACF5C2F31FDFA5470018523C /* Main.storyboard */; };
 		ACF5C2F71FDFA5470018523C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF5C2F61FDFA5470018523C /* Assets.xcassets */; };
@@ -16,7 +23,6 @@
 		ACF5C3131FDFAD770018523C /* home.js in Resources */ = {isa = PBXBuildFile; fileRef = ACF5C3121FDFAD770018523C /* home.js */; };
 		ACF5C3271FE103BF0018523C /* m1.png in Resources */ = {isa = PBXBuildFile; fileRef = ACF5C3261FE103BE0018523C /* m1.png */; };
 		ACF5C3321FE119940018523C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF5C3311FE119940018523C /* OpenGLES.framework */; };
-		F962407260EED0F4589E07D3 /* Pods_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D5CBE354CB67ABE14126C /* Pods_demo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +43,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A4B10FC1FE76BFF004B85F9 /* tmw_desert_spacing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tmw_desert_spacing.png; sourceTree = "<group>"; };
+		1A4B10FE1FE76BFF004B85F9 /* desert.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = desert.tmx; sourceTree = "<group>"; };
+		1A4B11011FE76C48004B85F9 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		1A4B11031FE76F28004B85F9 /* desert.tsx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = desert.tsx; sourceTree = "<group>"; };
+		1A4B11051FE77090004B85F9 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		1A4B11071FE7A2A3004B85F9 /* pay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pay.png; sourceTree = "<group>"; };
 		2D4D2E1C0FD4035CC294FFA2 /* Pods-demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-demo/Pods-demo.debug.xcconfig"; sourceTree = "<group>"; };
 		9F7D5CBE354CB67ABE14126C /* Pods_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF5C2EA1FDFA5470018523C /* demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,8 +72,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A4780E31FEA77B100D4569B /* Pods_demo.framework in Frameworks */,
+				1A4B11061FE77091004B85F9 /* libz.tbd in Frameworks */,
+				1A4B11021FE76C48004B85F9 /* libxml2.tbd in Frameworks */,
 				ACF5C3321FE119940018523C /* OpenGLES.framework in Frameworks */,
-				F962407260EED0F4589E07D3 /* Pods_demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +104,10 @@
 		ACF5C2EC1FDFA5470018523C /* demo */ = {
 			isa = PBXGroup;
 			children = (
+				1A4B11071FE7A2A3004B85F9 /* pay.png */,
+				1A4B10FE1FE76BFF004B85F9 /* desert.tmx */,
+				1A4B11031FE76F28004B85F9 /* desert.tsx */,
+				1A4B10FC1FE76BFF004B85F9 /* tmw_desert_spacing.png */,
 				ACF5C3261FE103BE0018523C /* m1.png */,
 				ACF5C2ED1FDFA5470018523C /* AppDelegate.h */,
 				ACF5C2EE1FDFA5470018523C /* AppDelegate.mm */,
@@ -124,6 +142,8 @@
 		C52DDDACB1B7920AC983B122 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A4B11051FE77090004B85F9 /* libz.tbd */,
+				1A4B11011FE76C48004B85F9 /* libxml2.tbd */,
 				ACF5C3311FE119940018523C /* OpenGLES.framework */,
 				9F7D5CBE354CB67ABE14126C /* Pods_demo.framework */,
 			);
@@ -208,11 +228,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A4B11001FE76C00004B85F9 /* desert.tmx in Resources */,
 				ACF5C2FA1FDFA5470018523C /* LaunchScreen.storyboard in Resources */,
 				ACF5C3271FE103BF0018523C /* m1.png in Resources */,
+				1A4B10FF1FE76C00004B85F9 /* tmw_desert_spacing.png in Resources */,
 				ACF5C2F71FDFA5470018523C /* Assets.xcassets in Resources */,
+				1A4B11041FE76F28004B85F9 /* desert.tsx in Resources */,
 				ACF5C2F51FDFA5470018523C /* Main.storyboard in Resources */,
 				ACF5C3101FDFAD610018523C /* main.js in Resources */,
+				1A4B11081FE7A2A3004B85F9 /* pay.png in Resources */,
 				ACF5C3131FDFAD770018523C /* home.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,7 +444,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BQQ2Y9B27K;
+				DEVELOPMENT_TEAM = 8V7A9F9SCJ;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -443,7 +467,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BQQ2Y9B27K;
+				DEVELOPMENT_TEAM = 8V7A9F9SCJ;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

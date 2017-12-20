@@ -21,6 +21,7 @@ namespace kk {
     class Element : public EventEmitter {
     DEF_CLASS(Element)
     public:
+        virtual ~Element();
         virtual Document * document();
         virtual Element * parent();
         virtual Element * firstChild();

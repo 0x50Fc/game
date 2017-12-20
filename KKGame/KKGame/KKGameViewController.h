@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <KKGame/KKGameView.h>
+#import <KKGame/kk-ui.h>
 
 @class KKGameApplication;
 
@@ -15,7 +16,7 @@
 
 @property(nonatomic,strong) KKGameApplication * app;
 @property(nonatomic,strong) NSString * path;
-@property(nonatomic,assign,readonly) kk::Document * document;
+@property(nonatomic,assign,readonly) kk::ui::UIDocument * document;
 @property(nonatomic,strong) IBOutlet KKGameView * gameView;
 
 @end

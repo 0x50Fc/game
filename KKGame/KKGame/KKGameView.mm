@@ -119,16 +119,33 @@
     
     glBindRenderbuffer(GL_RENDERBUFFER, _data.render);;
     
+    glBlendFunc( GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA );
+    glEnable(GL_BLEND);
+    
+    glEnable(GL_DEPTH_TEST);
+    
 }
 
 -(void) display:(kk::gl::GLDrawable *) drawable context:(kk::gl::GLContext *) context {
     
     [EAGLContext setCurrentContext:_GLContext];
     
-    context->setWidth(_width);
-    context->setHeight(_height);
+    CGFloat r = 0.0,g = 0.0,b = 0.0,a = 1.0;
+    
+    if(self.backgroundColor){
+        UIColor * color = self.backgroundColor;
+        [color getRed:&r green:&g blue:&b alpha:&a];
+    }
+    
+    glClearColor(r, g, b, a);
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    CGFloat scale = self.layer.contentsScale;
+    
+    context->setScale(scale);
+    context->setWidth(_width / scale);
+    context->setHeight(_height / scale);
     
     drawable->draw(context);
     

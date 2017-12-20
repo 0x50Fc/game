@@ -46,6 +46,23 @@ namespace kk {
         kk::Named width(26,"width");
         kk::Named height(27,"height");
         kk::Named startTime(28,"startTime");
+        kk::Named scale(29,"scale");
+        kk::Named maxWidth(30,"maxWidth");
+        kk::Named text(31,"text");
+        kk::Named fontFamily(32,"fontFamily");
+        kk::Named color(33,"color");
+        kk::Named fontSize(34,"fontSize");
+        kk::Named layout(35,"layout");
+        kk::Named contentSize(36,"contentSize");
+        kk::Named left(37,"left");
+        kk::Named top(38,"top");
+        kk::Named right(39,"right");
+        kk::Named bottom(40,"bottom");
+        kk::Named margin(41,"margin");
+        kk::Named padding(42,"padding");
+        kk::Named minWidth(43,"minWidth");
+        kk::Named minHeight(44,"minHeight");
+        kk::Named maxHeight(45,"maxHeight");
         
         static kk::Named *_list[]={
             &parent,
@@ -75,6 +92,24 @@ namespace kk {
             &anchor,
             &width,
             &height,
+            &startTime,
+            &scale,
+            &maxWidth,
+            &text,
+            &fontFamily,
+            &color,
+            &fontSize,
+            &layout,
+            &contentSize,
+            &left,
+            &top,
+            &right,
+            &bottom,
+            &margin,
+            &padding,
+            &minWidth,
+            &minHeight,
+            &maxHeight,
             NULL};
         
         static std::map<std::string,kk::Named*> _map;
@@ -111,7 +146,11 @@ namespace kk {
         return _name;
     }
     
-    Property::Property(Named * name) :_name(name) {
+    Property::Property(Named * name) :_name(name),_title(NULL) {
+        
+    }
+    
+    Property::Property(Named * name,CString title) :_name(name),_title(title) {
         
     }
     
@@ -119,11 +158,19 @@ namespace kk {
         return _name;
     }
     
+    CString Property::title() {
+        return _title;
+    }
+    
     void Property::change(Object * object) {
         object->change(this);
     }
     
     IntProperty::IntProperty(Named * name, Getter getter, Setter setter):TProperty<Int>(name,getter,setter) {
+        
+    }
+    
+    IntProperty::IntProperty(Named * name, Getter getter, Setter setter,CString title):TProperty<Int>(name,getter,setter,title) {
         
     }
     
@@ -210,8 +257,102 @@ namespace kk {
         
     }
     
+    UintProperty::UintProperty(Named * name, Getter getter, Setter setter):TProperty<Uint>(name,getter,setter) {
+        
+    }
+    
+    UintProperty::UintProperty(Named * name, Getter getter, Setter setter,CString title):TProperty<Uint>(name,getter,setter,title) {
+        
+    }
+    
+    static ScriptResult UintPropertyGetFunc(ScriptContext ctx) {
+        
+        duk_push_this(ctx);
+        
+        Object * v = ScriptGetObject(ctx, -1);
+        
+        duk_pop(ctx);
+        
+        duk_push_current_function(ctx);
+        
+        duk_get_prop_string(ctx, -1, "property");
+        
+        UintProperty * p = (UintProperty *) duk_get_pointer(ctx, -1);
+        
+        duk_pop_n(ctx, 2);
+        
+        if(v && p){
+            duk_push_uint(ctx, p->get(v));
+        } else {
+            duk_push_undefined(ctx);
+        }
+        
+        return 1;
+    }
+    
+    static ScriptResult UintPropertySetFunc(ScriptContext ctx) {
+        
+        duk_push_this(ctx);
+        
+        Object * v = ScriptGetObject(ctx, -1);
+        
+        duk_pop(ctx);
+        
+        duk_push_current_function(ctx);
+        
+        duk_get_prop_string(ctx, -1, "property");
+        
+        UintProperty * p = (UintProperty *) duk_get_pointer(ctx, -1);
+        
+        duk_pop_n(ctx, 2);
+        
+        if(v && p) {
+            
+            int nargs = duk_get_top(ctx);
+            
+            if(nargs >0 ) {
+                if(duk_is_number(ctx, -nargs)) {
+                    p->set(v, duk_to_int(ctx, -nargs));
+                } else if(duk_is_boolean(ctx, -nargs)) {
+                    p->set(v, duk_to_boolean(ctx, -nargs));
+                } else if(duk_is_string(ctx, -nargs)) {
+                    p->set(v, atoi(duk_to_string(ctx, -nargs)));
+                }
+            } else {
+                p->set(v, 0);
+            }
+        }
+        
+        return 0;
+    }
+    
+    void UintProperty::def(ScriptContext ctx) {
+        
+        duk_push_string(ctx, _name->name());
+        
+        duk_push_c_function(ctx, UintPropertyGetFunc, 0);
+        duk_push_string(ctx, "property");
+        duk_push_pointer(ctx, this);
+        duk_put_prop(ctx, -3);
+        
+        duk_push_c_function(ctx, UintPropertySetFunc, 1);
+        duk_push_string(ctx, "property");
+        duk_push_pointer(ctx, this);
+        duk_put_prop(ctx, -3);
+        
+        duk_def_prop(ctx,
+                     -4,
+                     DUK_DEFPROP_HAVE_GETTER |
+                     DUK_DEFPROP_HAVE_SETTER |
+                     DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_ENUMERABLE);
+        
+    }
     
     Int64Property::Int64Property(Named * name, Getter getter, Setter setter):TProperty<Int64>(name,getter,setter) {
+        
+    }
+    
+    Int64Property::Int64Property(Named * name, Getter getter, Setter setter,CString title):TProperty<Int64>(name,getter,setter,title) {
         
     }
     
@@ -302,6 +443,10 @@ namespace kk {
         
     }
     
+    BooleanProperty::BooleanProperty(Named * name, Getter getter, Setter setter,CString title):TProperty<Boolean>(name,getter,setter,title) {
+        
+    }
+    
     static ScriptResult BooleanPropertyGetFunc(ScriptContext ctx) {
         
         duk_push_this(ctx);
@@ -389,6 +534,10 @@ namespace kk {
         
     }
     
+    FloatProperty::FloatProperty(Named * name, Getter getter, Setter setter,CString title):TProperty<Float>(name,getter,setter,title) {
+        
+    }
+    
     static ScriptResult FloatPropertyGetFunc(ScriptContext ctx) {
         
         duk_push_this(ctx);
@@ -459,19 +608,30 @@ namespace kk {
         duk_push_pointer(ctx, this);
         duk_put_prop(ctx, -3);
         
-        duk_push_c_function(ctx, FloatPropertySetFunc, 1);
-        duk_push_string(ctx, "property");
-        duk_push_pointer(ctx, this);
-        duk_put_prop(ctx, -3);
-        
-        duk_def_prop(ctx,
-                     -4,
-                     DUK_DEFPROP_HAVE_GETTER |
-                     DUK_DEFPROP_HAVE_SETTER |
-                     DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_ENUMERABLE);
+        if(_setter != NULL) {
+            duk_push_c_function(ctx, FloatPropertySetFunc, 1);
+            duk_push_string(ctx, "property");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            
+            duk_def_prop(ctx,
+                         -4,
+                         DUK_DEFPROP_HAVE_GETTER |
+                         DUK_DEFPROP_HAVE_SETTER |
+                         DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_ENUMERABLE);
+        } else {
+            duk_def_prop(ctx,
+                         -3,
+                         DUK_DEFPROP_HAVE_GETTER |
+                         DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_ENUMERABLE);
+        }
     }
     
     DoubleProperty::DoubleProperty(Named * name, Getter getter, Setter setter):TProperty<Double>(name,getter,setter) {
+        
+    }
+    
+    DoubleProperty::DoubleProperty(Named * name, Getter getter, Setter setter,CString title):TProperty<Double>(name,getter,setter,title) {
         
     }
     
@@ -562,6 +722,10 @@ namespace kk {
         
     }
     
+    StringProperty::StringProperty(Named * name, Getter getter, Setter setter,CString title):TProperty<CString>(name,getter,setter,title) {
+        
+    }
+    
     static ScriptResult StringPropertyGetFunc(ScriptContext ctx) {
         
         duk_push_this(ctx);
@@ -648,6 +812,10 @@ namespace kk {
     }
     
     ObjectProperty::ObjectProperty(Named * name, Getter getter, Setter setter):TProperty<Object *>(name,getter,setter) {
+        
+    }
+    
+    ObjectProperty::ObjectProperty(Named * name, Getter getter, Setter setter,CString title):TProperty<Object *>(name,getter,setter,title) {
         
     }
     

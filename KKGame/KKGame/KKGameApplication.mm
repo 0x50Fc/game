@@ -9,6 +9,9 @@
 #include "kk-config.h"
 #include "kk.h"
 #include "kk-game.h"
+#include "kk-gl-tmx.h"
+#include "Battle.hpp"
+
 #import "KKGameApplication.h"
 
 #include <strstream>
@@ -98,9 +101,13 @@ static kk::ScriptResult KKGameApplication_print_func(kk::ScriptContext ctx) {
         
         ScriptOpenClass(_jsContext, "GLElement", &kk::gl::GLElement::Class);
         ScriptOpenClass(_jsContext, "GLImageElement", &kk::gl::GLImageElement::Class);
+        ScriptOpenClass(_jsContext, "GLTextElement", &kk::gl::GLTextElement::Class);
+        ScriptOpenClass(_jsContext, "GLTMXElement", &kk::gl::GLTMXElement::Class);
         
         ScriptOpenClass(_jsContext, "GMSceneElement", &kk::game::GMSceneElement::Class);
         ScriptOpenClass(_jsContext, "GMTextureElement", &kk::game::GMTextureElement::Class);
+        
+        ScriptOpenClass(_jsContext, "BTSceneElement", &kk::battle::BTSceneElement::Class);
         
     }
     return self;

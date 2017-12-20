@@ -41,12 +41,14 @@ namespace kk {
             static kk::Int64Property Property_current;
             static kk::Int64Property Property_speed;
             static kk::Int64Property Property_count;
+            static kk::Int64Property Property_startTime;
             static kk::Property *Propertys[];
             
         protected:
             GMTimeInterval _current;
             GMTimeInterval _speed;
             GMTimeInterval _count;
+            GMTimeInterval _startTime;
         };
         
         class GMElement: public kk::Element {

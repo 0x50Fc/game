@@ -14,6 +14,8 @@
 @interface KKGameView : UIView
 
 @property(nonatomic,strong,readonly) EAGLContext * GLContext;
+@property(nonatomic,assign,readonly) GLsizei width;
+@property(nonatomic,assign,readonly) GLsizei height;
 
 -(instancetype) initWithFrame:(CGRect)frame;
 

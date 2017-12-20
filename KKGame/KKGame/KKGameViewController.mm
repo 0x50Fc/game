@@ -101,8 +101,9 @@
     
     duk_pop(ctx);
     
-    _document = kk::ScriptNewObject<kk::Document>(ctx, 0);
+    _document = kk::ScriptNewObject<kk::ui::UIDocument>(ctx, 0);
     
+    _document->setPixelScale(kk::ui::PixelTypeRPX, [[UIScreen mainScreen] bounds].size.width / 750.0f);
     _document->setApp(app);
     
     kk::ScriptNewGlobalObject(ctx, _document);
@@ -208,4 +209,19 @@
     return _app;
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    
+}
 @end

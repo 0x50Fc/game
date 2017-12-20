@@ -92,7 +92,7 @@ Class name::Class(&super::Class,(propertys),(prototype),name::Alloc);
                 _value->unweak((kk::Object**) &_value);
                 ScriptContext ctx = _object->context();
                 ScriptPushObject(ctx,_object);
-                duk_push_sprintf(ctx,"__strong_%lx",(unsigned long) _value);
+                duk_push_sprintf(ctx,"__strong_%lx",(unsigned long) this);
                 duk_del_prop(ctx,-2);
                 duk_pop(ctx);
             }
@@ -104,7 +104,7 @@ Class name::Class(&super::Class,(propertys),(prototype),name::Alloc);
                     _value->unweak((kk::Object**)&_value);
                     ScriptContext ctx = _object->context();
                     ScriptPushObject(ctx,_object);
-                    duk_push_sprintf(ctx,"__strong_%lx",(unsigned long) _value);
+                    duk_push_sprintf(ctx,"__strong_%lx",(unsigned long) this);
                     duk_del_prop(ctx,-2);
                     duk_pop(ctx);
                 }
@@ -114,7 +114,7 @@ Class name::Class(&super::Class,(propertys),(prototype),name::Alloc);
                     _value->weak((kk::Object**)&_value);
                     ScriptContext ctx = _object->context();
                     ScriptPushObject(ctx,_object);
-                    duk_push_sprintf(ctx,"__strong_%lx",(unsigned long) _value);
+                    duk_push_sprintf(ctx,"__strong_%lx",(unsigned long) this);
                     ScriptPushObject(ctx,_value);
                     duk_def_prop(ctx, -3,
                                  DUK_DEFPROP_HAVE_VALUE |

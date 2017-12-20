@@ -67,6 +67,7 @@ namespace kk {
         };
         
         class GLProgram;
+        class GLTexture;
         
         class GLContext : public kk::Object {
         DEF_CLASS(GLContext)
@@ -82,12 +83,17 @@ namespace kk {
             virtual void setWidth(kk::Int v);
             virtual kk::Int height();
             virtual void setHeight(kk::Int v);
+            virtual kk::Float scale();
+            virtual void setScale(kk::Float v);
             virtual GLTimeInterval speed();
             virtual void setSpeed(GLTimeInterval v);
+            
+            virtual void drawTexture(GLTexture * texture,vec4 dest,vec4 src);
             
             static kk::IntProperty Property_width;
             static kk::IntProperty Property_height;
             static kk::Int64Property Property_speed;
+            static kk::FloatProperty Property_scale;
             static kk::Property *Propertys[];
             
         protected:
@@ -95,6 +101,7 @@ namespace kk {
             std::map<std::string,GLProgram *> _programs;
             kk::Int _width;
             kk::Int _height;
+            kk::Float _scale;
             GLTimeInterval _speed;
         };
         
@@ -102,6 +109,8 @@ namespace kk {
         public:
             virtual void draw(GLContext * ctx) = 0;
         };
+        
+        class GLTexture;
         
         class GLElement : public GLDrawable, public kk::Element {
         DEF_CLASS(GLElement)
@@ -112,10 +121,15 @@ namespace kk {
             virtual void setTransform(mat4& v);
             virtual kk::Float opacity();
             virtual void setOpacity(kk::Float v);
+            virtual vec3& scale();
+            virtual void setScale(vec3& v);
             virtual void draw(GLContext * ctx);
             virtual void init();
             
+            virtual GLTexture * getTexture(kk::CString name);
+            
             static Vec3Property Property_position;
+            static Vec3Property Property_scale;
             static Mat4Property Property_transform;
             static kk::FloatProperty Property_opacity;
             static kk::Property * Propertys[];
@@ -123,6 +137,7 @@ namespace kk {
         protected:
             virtual void onDraw(GLContext * ctx);
             vec3 _position;
+            vec3 _scale;
             mat4 _transform;
             kk::Float _opacity;
         };
@@ -141,6 +156,8 @@ namespace kk {
             virtual vec2& anchor();
             virtual void setAnchor(vec2& anchor);
             
+            virtual void init();
+            
             static kk::StringProperty Property_name;
             static Vec2Property Property_size;
             static Vec2Property Property_anchor;
@@ -150,6 +167,53 @@ namespace kk {
             virtual void onDraw(GLContext * ctx);
             GLTexture * _texture;
             kk::String _name;
+            vec2 _size;
+            vec2 _anchor;
+        };
+        
+        class GLTextElement : public GLElement {
+            DEF_CLASS(GLTextElement)
+        public:
+            virtual ~GLTextElement();
+            virtual CString text();
+            virtual void setText(CString v);
+            
+            virtual kk::Float maxWidth();
+            virtual void setMaxWidth(kk::Float size);
+            
+            virtual vec2& size();
+            
+            virtual kk::CString fontFamily();
+            virtual void setFontFamily(kk::CString v);
+            
+            virtual kk::Float fontSize();
+            virtual void setFontSize(kk::Float v);
+            
+            virtual vec4& color();
+            virtual void setColor(vec4& v);
+            
+            virtual vec2& anchor();
+            virtual void setAnchor(vec2& anchor);
+            
+            virtual void init();
+            
+            static kk::StringProperty Property_text;
+            static kk::FloatProperty Property_maxWidth;
+            static Vec2Property Property_size;
+            static Vec2Property Property_anchor;
+            static kk::StringProperty Property_fontFamily;
+            static kk::FloatProperty Property_fontSize;
+            static Vec4Property Property_color;
+            static kk::Property * Propertys[];
+            
+        protected:
+            virtual void onDraw(GLContext * ctx);
+            kk::String _text;
+            kk::String _fontFamily;
+            kk::Float _maxWidth;
+            kk::Float _fontSize;
+            vec4 _color;
+            GLTexture * _texture;
             vec2 _size;
             vec2 _anchor;
         };
@@ -178,6 +242,9 @@ namespace kk {
         
         extern GLTexture * GLCreateTexture(kk::Application * app,kk::CString path);
         
+        extern vec2 GLStringSize(kk::CString string,kk::CString fontFamily,kk::Float fontSize,kk::Float maxWidth);
+        
+        extern GLTexture * GLCreateStringTexture(kk::CString string,kk::CString fontFamily,kk::Float fontSize,vec4 textColor,kk::Float maxWidth);
         
         class GLProgram {
         public:
