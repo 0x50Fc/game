@@ -9,9 +9,16 @@
 #ifndef kk_object_h
 #define kk_object_h
 
-#ifdef __APPLE__
+#if defined(__APPLE__) && !defined(KK_SIMULATOR)
+
 #include <KKGame/kk.h>
 #include <KKGame/kk-property.h>
+
+#else
+
+#include "kk.h"
+#include "kk-property.h"
+
 #endif
 
 #include <set>

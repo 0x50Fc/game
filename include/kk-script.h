@@ -9,10 +9,15 @@
 #ifndef kk_script_h
 #define kk_script_h
 
-#ifdef __APPLE__
-#include <KKDuktape/KKDuktape.h>
-#endif
+#if defined(__APPLE__) && !defined(KK_SIMULATOR)
 
+#include <KKDuktape/KKDuktape.h>
+
+#else
+
+#include "duktape.h"
+
+#endif
 
 namespace kk {
     

@@ -10,7 +10,7 @@
 #define kk_gl_tmx_h
 
 
-#ifdef __APPLE__
+#if defined(__APPLE__) && !defined(KK_SIMULATOR)
 #include <KKGame/kk-gl.h>
 #endif
 

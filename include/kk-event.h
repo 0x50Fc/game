@@ -9,9 +9,12 @@
 #ifndef kk_event_h
 #define kk_event_h
 
-#ifdef __APPLE__
+#if defined(__APPLE__) && !defined(KK_SIMULATOR)
 #include <KKGame/kk.h>
 #include <KKGame/kk-object.h>
+#else
+#include "kk.h"
+#include "kk-object.h"
 #endif
 
 #include <list>

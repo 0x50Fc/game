@@ -6,6 +6,7 @@
 //  Copyright © 2017年 kkmofang.cn. All rights reserved.
 //
 
+#include "kk-config.h"
 #include "kk-ui.h"
 
 namespace kk {
@@ -252,28 +253,28 @@ namespace kk {
         }
         
         kk::CString UIElement::layout() {
-//            if(_layout == UILayoutRelative) {
-//                return "relative";
-//            }
-//            if(_layout == UILayoutFlex) {
-//                return "flex";
-//            }
-//            if(_layout == UILayoutHorizontal) {
-//                return "horizontal";
-//            }
+            if(_layout == UIElement::Relative) {
+                return "relative";
+            }
+            if(_layout == UIElement::Flex) {
+                return "flex";
+            }
+            if(_layout == UIElement::Horizontal) {
+                return "horizontal";
+            }
             return "";
         }
         
         void UIElement::setLayout(kk::CString name) {
-//            if(kk::CStringEqual(name, "relative")) {
-//                _layout = UILayoutRelative;
-//            } else if(kk::CStringEqual(name, "flex")) {
-//                _layout = UILayoutFlex;
-//            } else if(kk::CStringEqual(name, "horizontal")) {
-//                _layout = UILayoutHorizontal;
-//            } else {
-//                _layout = NULL;
-//            }
+            if(kk::CStringEqual(name, "relative")) {
+                _layout = UIElement::Relative;
+            } else if(kk::CStringEqual(name, "flex")) {
+                _layout = UIElement::Flex;
+            } else if(kk::CStringEqual(name, "horizontal")) {
+                _layout = UIElement::Horizontal;
+            } else {
+                _layout = NULL;
+            }
         }
         
         void UIElement::setLayout(UILayout layout) {
@@ -452,13 +453,19 @@ namespace kk {
         
         void UIElement::onDraw(kk::gl::GLContext * ctx) {
             kk::gl::GLElement::onDraw(ctx);
+            UIElement::Relative(this);
         }
+        
+        kk::Boolean UIElement::isInset(UITouch * touch){
+            return true;
+        }
+
+        IMP_CLASS(UIElement, kk::gl::GLElement, UIElement::Propertys, NULL)
         
         /**
          * 相对布局 "relative"
          */
-        /*
-        kk::gl::vec2 UILayoutRelative(UIElement * element) {
+        kk::gl::vec2 UIElement::Relative(UIElement * element) {
             
             kk::gl::vec2 size = element->size();
             Edge &padding = element->padding();
@@ -477,7 +484,7 @@ namespace kk {
                 UIElement * e = dynamic_cast<UIElement *>(p);
                 
                 if(e) {
-                    
+
                     kk::Float width = e->pixel(e->width(), inSize.x, FLOAT_MAX);
                     kk::Float height = e->pixel(e->height(), inSize.y, FLOAT_MAX);
                     
@@ -565,13 +572,11 @@ namespace kk {
             
             return contentSize;
         }
-        */
         
         /**
          * 流式布局 "flex" 左到右 上到下
          */
-        /*
-        kk::gl::vec2 UILayoutFlex(UIElement * element) {
+        kk::gl::vec2 UIElement::Flex(UIElement * element) {
             
             kk::gl::vec2 size = element->size();
             Edge &padding = element->padding();
@@ -670,13 +675,11 @@ namespace kk {
             
             return kk::gl::vec2(maxWidth,y + lineHeight + paddingBottom);
         }
-        */
         
         /**
          * 水平布局 "horizontal" 左到右
          */
-        /*
-        kk::gl::vec2 UILayoutHorizontal(UIElement * element) {
+        kk::gl::vec2 UIElement::Horizontal(UIElement * element) {
             kk::gl::vec2 size = element->size();
             Edge &padding = element->padding();
             kk::Float paddingLeft = element->pixel(padding.left, size.x, 0);
@@ -768,7 +771,6 @@ namespace kk {
             
             return kk::gl::vec2(maxWidth,y + lineHeight + paddingBottom);
         }
-         */
     }
     
 }

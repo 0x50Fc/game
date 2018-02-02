@@ -9,9 +9,8 @@
 #ifndef Battle_hpp
 #define Battle_hpp
 
-#ifdef __APPLE__
+#if defined(TARGET_OS_IOS)
 #include <KKGame/kk-game.h>
-#include <Box2D/Dynamics/b2World.h>
 #endif
 
 /**
@@ -36,7 +35,6 @@ namespace kk {
             
         protected:
             kk::gl::vec2 _size;
-            b2World * _world;
         };
         
     }

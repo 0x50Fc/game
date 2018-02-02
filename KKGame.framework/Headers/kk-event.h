@@ -9,7 +9,7 @@
 #ifndef kk_event_h
 #define kk_event_h
 
-#ifdef __APPLE__
+#ifdef TARGET_OS_IOS
 #include <KKGame/kk.h>
 #include <KKGame/kk-object.h>
 #endif

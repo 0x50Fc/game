@@ -9,17 +9,21 @@
 #ifndef kk_gl_h
 #define kk_gl_h
 
-#ifdef __APPLE__
+#if defined(__APPLE__) && !defined(KK_SIMULATOR)
 #include <KKGame/kk.h>
 #include <KKGame/kk-element.h>
 #include <KKGame/kk-document.h>
+#else
+#include "kk.h"
+#include "kk-element.h"
+#include "kk-document.h"
+#endif
+
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/mat3x3.hpp>
-#endif
-
 #include <vector>
 #include <string>
 #include <map>

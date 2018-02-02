@@ -18,7 +18,6 @@
 
 +(void) initialize {
     [super initialize];
-    
     [KKGameViewController class];
 }
 

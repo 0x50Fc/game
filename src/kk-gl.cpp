@@ -9,13 +9,19 @@
 #include "kk-config.h"
 #include "kk-gl.h"
 
-#ifdef __APPLE__
-
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/constants.hpp>
 
+
+#if defined(__APPLE__) && !defined(KK_SIMULATOR)
+
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
+
+#elif defined(__APPLE__)
+
+#include <OpenGL/gl3.h>
+#include <OpenGL/gl3ext.h>
 
 #endif
 
@@ -1169,7 +1175,7 @@ namespace kk {
                 
                 return;
             }
-            
+#ifdef GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG
             {
                 GLPVRTextureHeader *header = NULL;
                 uint32_t flags, pvrTag;
@@ -1267,6 +1273,7 @@ namespace kk {
                 
                 }
             }
+#endif
         }
         
         GLTexture::~GLTexture() {

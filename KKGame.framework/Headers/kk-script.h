@@ -9,10 +9,15 @@
 #ifndef kk_script_h
 #define kk_script_h
 
-#ifdef __APPLE__
-#include <KKDuktape/KKDuktape.h>
-#endif
+#ifdef TARGET_OS_IOS
 
+#include <KKDuktape/KKDuktape.h>
+
+#else
+
+#include "duktape.h"
+
+#endif
 
 namespace kk {
     

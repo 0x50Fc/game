@@ -70,33 +70,16 @@ namespace kk {
         
         class UIElement;
         
-        typedef kk::gl::vec2 (*UILayout) (UIElement * element);
-        
-
-        /**
-         * 相对布局 "relative"
-         */
-        //extern kk::gl::vec2 UILayoutRelative(UIElement * element);
-        
-        /**
-         * 流式布局 "flex" 左到右 上到下
-         */
-        //extern kk::gl::vec2 UILayoutFlex(UIElement * element);
-        
-        /**
-         * 水平布局 "horizontal" 左到右
-         */
-        //extern kk::gl::vec2 UILayoutHorizontal(UIElement * element);
-        
         class UIElement : public kk::gl::GLElement {
             DEF_CLASS(UIElement)
         public:
+            typedef kk::gl::vec2 (*UILayout) (UIElement * element);
             
             virtual void begin(UITouch * touch);
             virtual void moved(UITouch * touch);
             virtual void end(UITouch * touch);
             virtual void canceled(UITouch * touch);
-            virtual void isInset(UITouch * touch);
+            virtual kk::Boolean isInset(UITouch * touch);
             
             virtual kk::CString layout();
             virtual void setLayout(kk::CString name);
@@ -171,6 +154,21 @@ namespace kk {
             static EdgeProperty Property_padding;
             
             static kk::Property *Propertys[];
+            
+            /**
+             * 相对布局 "relative"
+             */
+            static kk::gl::vec2 Relative(UIElement * element);
+            
+            /**
+             * 流式布局 "flex" 左到右 上到下
+             */
+            static kk::gl::vec2 Flex(UIElement * element);
+            
+            /**
+             * 水平布局 "horizontal" 左到右
+             */
+            static kk::gl::vec2 Horizontal(UIElement * element);
             
         protected:
             virtual void onDraw(kk::gl::GLContext * ctx);

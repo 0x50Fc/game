@@ -9,7 +9,7 @@
 #ifndef kk_game_h
 #define kk_game_h
 
-#ifdef __APPLE__
+#if defined(__APPLE__) && !defined(KK_SIMULATOR)
 #include <KKGame/kk.h>
 #include <KKGame/kk-element.h>
 #include <KKGame/kk-gl.h>
