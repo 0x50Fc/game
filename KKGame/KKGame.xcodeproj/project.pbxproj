@@ -22,6 +22,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1A0A660A20297D46008DA5A3 /* GLSLTexture.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A660620297D46008DA5A3 /* GLSLTexture.cc */; };
+		1A0A660B20297D46008DA5A3 /* GLSLTexture.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 1A0A660720297D46008DA5A3 /* GLSLTexture.fsh */; };
+		1A0A660C20297D46008DA5A3 /* GLSLTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A660820297D46008DA5A3 /* GLSLTexture.h */; };
+		1A0A660D20297D46008DA5A3 /* GLSLTexture.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 1A0A660920297D46008DA5A3 /* GLSLTexture.vsh */; };
 		1A4B10E01FE3D4B2004B85F9 /* Battle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B10DE1FE3D4B2004B85F9 /* Battle.cpp */; };
 		1A4B10E11FE3D4B2004B85F9 /* Battle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 1A4B10DF1FE3D4B2004B85F9 /* Battle.hpp */; };
 		1A4B10ED1FE7628A004B85F9 /* tmx_hash.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B10E31FE76289004B85F9 /* tmx_hash.c */; };
@@ -82,6 +86,10 @@
 
 /* Begin PBXFileReference section */
 		174ADB27401839A18F8A87E6 /* Pods-KKGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KKGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KKGame/Pods-KKGame.debug.xcconfig"; sourceTree = "<group>"; };
+		1A0A660620297D46008DA5A3 /* GLSLTexture.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLSLTexture.cc; sourceTree = "<group>"; };
+		1A0A660720297D46008DA5A3 /* GLSLTexture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GLSLTexture.fsh; sourceTree = "<group>"; };
+		1A0A660820297D46008DA5A3 /* GLSLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSLTexture.h; sourceTree = "<group>"; };
+		1A0A660920297D46008DA5A3 /* GLSLTexture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GLSLTexture.vsh; sourceTree = "<group>"; };
 		1A4B10DE1FE3D4B2004B85F9 /* Battle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Battle.cpp; sourceTree = "<group>"; };
 		1A4B10DF1FE3D4B2004B85F9 /* Battle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Battle.hpp; sourceTree = "<group>"; };
 		1A4B10E31FE76289004B85F9 /* tmx_hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tmx_hash.c; path = ../../../lib/tmx/src/tmx_hash.c; sourceTree = "<group>"; };
@@ -148,6 +156,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A0A660520297D46008DA5A3 /* glsl */ = {
+			isa = PBXGroup;
+			children = (
+				1A0A660620297D46008DA5A3 /* GLSLTexture.cc */,
+				1A0A660720297D46008DA5A3 /* GLSLTexture.fsh */,
+				1A0A660820297D46008DA5A3 /* GLSLTexture.h */,
+				1A0A660920297D46008DA5A3 /* GLSLTexture.vsh */,
+			);
+			name = glsl;
+			path = ../../../../../git.sc.weibo.com/kk/game/glsl;
+			sourceTree = "<group>";
+		};
 		1A4B10DD1FE3D49F004B85F9 /* Battle */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +243,7 @@
 		AC871F841FD7A1620078923F /* KKGame */ = {
 			isa = PBXGroup;
 			children = (
+				1A0A660520297D46008DA5A3 /* glsl */,
 				1A4B110A1FE7C98F004B85F9 /* ui */,
 				1A4B10E21FE7627B004B85F9 /* tmx */,
 				1A4B10DD1FE3D49F004B85F9 /* Battle */,
@@ -299,6 +320,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A0A660C20297D46008DA5A3 /* GLSLTexture.h in Headers */,
 				ACE05BEA1FD8E29E0043912D /* kk.h in Headers */,
 				ACE05BEB1FD8E29E0043912D /* kk-config.h in Headers */,
 				ACF5C2C11FDE5C5A0018523C /* kk-app.h in Headers */,
@@ -389,6 +411,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A0A660B20297D46008DA5A3 /* GLSLTexture.fsh in Resources */,
+				1A0A660D20297D46008DA5A3 /* GLSLTexture.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,6 +489,7 @@
 				ACF5C3161FE0BF8C0018523C /* kk-object.cpp in Sources */,
 				ACF5C3151FE0BF820018523C /* kk.cpp in Sources */,
 				ACF5C3181FE0BFA70018523C /* kk-event.cpp in Sources */,
+				1A0A660A20297D46008DA5A3 /* GLSLTexture.cc in Sources */,
 				ACF5C3171FE0BF8F0018523C /* kk-property.cpp in Sources */,
 				ACF5C3201FE0EC410018523C /* KKGameView.mm in Sources */,
 				1A4B110D1FE7C9A6004B85F9 /* kk-ui.cpp in Sources */,
